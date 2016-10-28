@@ -4,12 +4,15 @@ Or_Connector::Or_Connector(Base *left, Base *right):Connector_B(left, right){
 
 }
 
-Or_Connector::~OrConnector(){
-    if()
-
-
+Or_Connector::~Or_Connector(){
+    if(this->leftChild !=NULL){
+        delete this->leftChild;
+    }
+    if(this->rightChild!=NULL){
+        delete this->rightChild;
+    }
 }
 
-Or_Connector::execute(){
+int Or_Connector::execute(){
 
 }

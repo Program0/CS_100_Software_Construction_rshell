@@ -1,17 +1,20 @@
 #ifndef TEST_H
 #define TEST_H
+
 #include <iostream>
-using namespace std;
+#include "base.h"
+#include "command.h"
+#include "or_connector.h"
+#include "and_connector.h"
 
-int main() {
+
+class Test {
+public:
+    int testCommand() {
     Command* ls = new Command("ls -l");
-    Command* cd = new Command("cd ~/marlo");
-    Command* cat = new Command("cat myfile.txt");
-
-    Or_Connector* && = new And_Connector(ls, cd);
-    And_Connector* || = new And_Connector(&&, cat);
-
-    cout << ||->execute() << endl;
-
-    return 0;
-}
+    int status = ls->execute();
+    std::cout<< "Command ls succeded? "<< status << std::endl;
+    return status;
+    }
+};
+#endif // TEST_H

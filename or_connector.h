@@ -1,10 +1,10 @@
 #ifndef OR_CONNECTOR_H
 #define OR_CONNECTOR_H
 
+#include "connector_b.h"
 #include "base.h"
 
-class Or_Connector : public ConnectorB
-{
+class Or_Connector : public Connector_B {
 public:
     Or_Connector(Base *left, Base *right);
     ~Or_Connector();

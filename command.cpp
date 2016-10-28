@@ -1,16 +1,19 @@
-#include "command.h"
+
 #include <iostream>
 
-Command::Command(string n) {
+#include "command.h"
+
+
+Command::Command(std::string n) {
     name = n;
 }
 
-Comand::execute() {
+int Command::execute() {
     //TODO perform system call
 
     //if(system returns error)
     //return -1;
 
-    cout << "command name: " << name << endl;
+    std::cout << "command name: " << name << std::endl;
     return 0; //manual change this for testing connectors
 }

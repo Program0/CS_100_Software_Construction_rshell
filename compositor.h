@@ -1,6 +1,7 @@
 #ifndef COMPOSITOR_H
 #define COMPOSITOR_H
 
+#include <vector>
 #include "base.h"
 
 class Compositor : public Base

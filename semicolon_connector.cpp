@@ -1,10 +1,11 @@
-#include "connector_u.h"
+#include "semicolon_connector.h"
 
-Semicolon_Connector::Semicolon_Connector(Base* child) : Connector_U(child) {
+Semicolon_Connector::Semicolon_Connector(Base* left, Base *right):
+    Connector_B(left, right){
 	
 }
         
-Semicolon_Connector::execute() {
-	int result = child->execute();
+int Semicolon_Connector::execute() {
+    int result = 0;
     return result;
 }

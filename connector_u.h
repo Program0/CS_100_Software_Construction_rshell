@@ -1,9 +1,9 @@
 #ifndef CONNECTOR_U_H
 #define CONNECTOR_U_H
 
+#include "base.h"
 
-class Connector_U : public Base
-{
+class Connector_U : public Base {
 protected:
     Base *child;
 
