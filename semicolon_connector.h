@@ -8,6 +8,6 @@ class Semicolon_Connector : public Connector_B {
     public:
         Semicolon_Connector(Base* left, Base *right);
         virtual ~Semicolon_Connector();
-        execute();
+        int execute();
 };
 #endif
