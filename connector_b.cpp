@@ -13,5 +13,5 @@ Connector_B::~Connector_B(){
 }
 
 int Connector_B::execute(){
-
+    return 0;
 }
