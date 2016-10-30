@@ -14,5 +14,5 @@ Or_Connector::~Or_Connector(){
 }
 
 int Or_Connector::execute(){
-
+    return 0;
 }

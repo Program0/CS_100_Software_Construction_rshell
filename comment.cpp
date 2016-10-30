@@ -4,6 +4,6 @@ Comment::Comment(Base* child) {
 	commented = child;
 }
 
-Comment::execute() {
+int Comment::execute() {
 	return 0;
 }
