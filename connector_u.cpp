@@ -12,6 +12,7 @@ Connector_U::~Connector_U(){
     }
 }
 
-Connector_U::execute(){
-
+// Stub
+int Connector_U::execute(){
+    return 0;
 }
