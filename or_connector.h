@@ -7,7 +7,7 @@
 class Or_Connector : public Connector_B {
 public:
     Or_Connector(Base *left, Base *right);
-    ~Or_Connector();
+    virtual ~Or_Connector();
 
     // Executes the commands
     int execute();

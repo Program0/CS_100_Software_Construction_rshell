@@ -7,6 +7,7 @@
 class And_Connector : public Connector_B {
     public:
         And_Connector(Base* left, Base* right);
+        virtual ~And_Connector();
         int execute();
 };
 #endif

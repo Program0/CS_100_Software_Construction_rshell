@@ -8,6 +8,7 @@
 int main(int argc, char *argv[])
 {
     std::cout << "Hello world!"<<std::endl;
+    /*
     pid_t child_pid;// Process id of the child after forking
     int child_status; // Status of child after fork() executes
 
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
 
       }
 
+      */
     Test mytest;
     mytest.testCommand();
     return 0;

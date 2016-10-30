@@ -13,7 +13,7 @@ public:
 
     // Main contructor
     Connector_B(Base *left, Base *right);
-    ~Connector_B();
+    virtual ~Connector_B();
 
     // Executes the commands stored in the left and right child
     int execute();

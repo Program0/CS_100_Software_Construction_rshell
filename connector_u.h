@@ -12,7 +12,7 @@ public:
     Connector_U(Base *childCommand);
 
     // Destructor
-    ~Connector_U();
+   virtual ~Connector_U();
 
     int execute();
 };

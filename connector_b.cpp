@@ -3,7 +3,8 @@
 // Stubs to complete
 Connector_B::Connector_B(Base *left, Base *right)
 {
-
+    leftChild = left;
+    rightChild = right;
 }
 
 
