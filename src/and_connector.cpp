@@ -1,4 +1,3 @@
-#include "connector_b.h"
 #include "and_connector.h"
 
 And_Connector::And_Connector(Base* left, Base* right) : Connector_B(left, right) {
