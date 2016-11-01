@@ -16,11 +16,19 @@ And_Connector::~And_Connector(){
 }
         
 int And_Connector::execute() {
-    int result = this->leftChild->execute();
-    if (result == -1) //if error
-        return -1;
-    else{
-        this->rightChild->execute();
-        return 0;
-    }
+    int left = -1; // Status of left child process
+    int right= -1; // Status of right child process
+
+    if(leftChild!=NULL)
+        left = leftChild->execute();
+
+    // We only execute if the first process succeeded
+    if(rightChild!=NULL && left > -1)
+        right = rightChild->execute();
+    
+    // We are only concerned with what happens if both execute
+    if(left >-1 && right > -1) 
+       return 1;
+    else 
+       return -1;
 }

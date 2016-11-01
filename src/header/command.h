@@ -15,8 +15,8 @@
 
 class Command : public Base {
 private:
-    //stores command file at cmd[0] and parameter after that
-    std::vector<std::string> cmd;
+    //stores command file at cmd[0] and parameters after that
+    std::vector<std::string>cmd; // Null terminated vector
 
 public:
 

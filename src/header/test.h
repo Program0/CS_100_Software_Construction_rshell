@@ -18,34 +18,27 @@
 class Test {
 public:
     int testCommand() {
-
-    pid_t testchild;
     int status;
 
-    testchild = fork();
-    if(testchild < 0 ){
-        perror("Error: no child created");
-
-    }
-
-    else if(testchild != 0){
-        waitpid(testchild,&status,0);
-    }
-
-    else{
-    std::vector<std::string> n, m;
-    n.push_back(std::string("ls"));
-    n.push_back(std::string("-l"));
-    m.push_back(std::string("eco"));
-    m.push_back(std::string("hello"));
+    std::vector<std::string> m;
+    m.push_back(std::string("lm"));
+    m.push_back(std::string("-l"));
+    std::vector<std::string> n;
+    n.push_back(std::string("echo"));
+    n.push_back(std::string("command 2"));
     Base* ls = new Command(m);
     Base* rs = new Command(n);
     Base* sc = new Semicolon_Connector(ls,rs);
-    
-    status = sc->execute();
-    }
+    Base* an = new And_Connector(ls,rs);
+    Base* orC = new Or_Connector(ls,rs);
 
-    std::cout<< "Commands succeded? " << status << std::endl;
+    std::cout << "semicolon: " << std::endl;
+    status = sc->execute();
+    std::cout << "Or: " << std::endl;
+    status = orC->execute();
+    std::cout << "And: " << std::endl;
+    status = an->execute();
+    std::cout<< "Commands succeded? if 0 yes: " << status << std::endl;
     return status;
     }
 };
