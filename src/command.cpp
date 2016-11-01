@@ -1,17 +1,15 @@
-
+#include "command.h"
 #include <iostream>
 
-#include "command.h"
-
-
-Command::Command(std::string n) {
-    name = n;
+Command::Command(std::string name, std::vector<std::string> param) {
+    this->name = name;
+    this->param = param;
 }
 
 int Command::execute() {
     //TODO perform system call
 
-    //if(system returns error)
+    //if (system returns error)
     //return -1;
 
     std::cout << "command name: " << name << std::endl;

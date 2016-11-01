@@ -14,5 +14,7 @@ Or_Connector::~Or_Connector(){
 }
 
 int Or_Connector::execute(){
-    return 0;
+    if (leftChild->execute() == 0) {
+        return -1;
+    return rightChild->execute();
 }

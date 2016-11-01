@@ -17,11 +17,7 @@ And_Connector::~And_Connector(){
 }
         
 int And_Connector::execute() {
-    int result = this->leftChild->execute();
-    if (result == -1) //if error
+    if (leftChild->execute() == -1)
         return -1;
-    else{
-        this->rightChild->execute();
-        return 0;
-    }
+    return rightChild->execute();
 }
