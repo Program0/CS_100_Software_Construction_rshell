@@ -14,7 +14,19 @@ Or_Connector::~Or_Connector(){
 }
 
 int Or_Connector::execute(){
-    if (leftChild->execute() == 0) {
-        return -1;
-    return rightChild->execute();
+    int left = -1; // Status of left child process
+    int right= -1; // Status of right child process
+
+    if(leftChild!=NULL)
+        left = leftChild->execute();
+
+    // We only execute if the first one failed
+    if(rightChild!=NULL && left == -1)
+        right = rightChild->execute();
+    
+    // We are only concerned with what happens if both fail
+    if(left == -1 && right == -1) 
+       return -1;
+    else 
+       return 1;
 }

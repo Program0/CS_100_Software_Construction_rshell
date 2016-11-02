@@ -1,4 +1,3 @@
-#include "connector_b.h"
 #include "and_connector.h"
 
 And_Connector::And_Connector(Base* left, Base* right) : Connector_B(left, right) {
@@ -17,7 +16,19 @@ And_Connector::~And_Connector(){
 }
         
 int And_Connector::execute() {
-    if (leftChild->execute() == -1)
-        return -1;
-    return rightChild->execute();
+    int left = -1; // Status of left child process
+    int right= -1; // Status of right child process
+
+    if(leftChild!=NULL)
+        left = leftChild->execute();
+
+    // We only execute if the first process succeeded
+    if(rightChild!=NULL && left > -1)
+        right = rightChild->execute();
+    
+    // We are only concerned with what happens if both execute
+    if(left >-1 && right > -1) 
+       return 1;
+    else 
+       return -1;
 }
