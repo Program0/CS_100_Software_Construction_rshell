@@ -34,15 +34,22 @@ void Tree::build(std::vector< std::vector<std::string> > vIn) {
         root = new Command(vIn.at(0));
         if (vIn.size() > 1) {
             int i = 1;
+            Base* command;
             while (i < (((int) vIn.size()) - 1)) {
+                if (vIn.at(i + 1).at(0) == "exit") {
+                    command = new Exit_Command();
+                }
+                else {
+                    command = new Command(vIn.at(i + 1));
+                }
                 if (vIn.at(i).at(0) == "&") {
-                   root = new And_Connector(root, new Command(vIn.at(i + 1)));
+                   root = new And_Connector(root, command);
                 }
                 else if (vIn.at(i).at(0) == "|") {
-                    root = new Or_Connector(root, new Command(vIn.at(i + 1)));
+                    root = new Or_Connector(root, command);
                 }
                 else if (vIn.at(i).at(0) == ";") {
-                    root = new Semicolon_Connector(root, new Command(vIn.at(i + 1)));
+                    root = new Semicolon_Connector(root, command);
                 }
                 i += 2;
             }
