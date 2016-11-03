@@ -2,8 +2,14 @@
 #define EXIT_COMMAND_H
 
 class Exit_Command {
-    public:
-        Exit_Command();
+
+public:
+
+    // Empty constructor
+    Exit_Command();
+
+    // Issues the exit program program
+    int execute();  
 
 };
 #endif
