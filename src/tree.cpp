@@ -4,6 +4,13 @@ Tree::Tree() {
     root = NULL;
 }
 
+Tree::~Tree(){
+  if (root != NULL) {
+        delete root;
+        root = NULL; // Point it to NULL so we don't get garbage accessing it later
+    }
+}
+
 // Copies a tree
 Tree::Tree(const Tree &tree){
     // If we are not empty clear then rebuild

@@ -7,11 +7,13 @@
 // User libraries
 #include "tree.h"
 #include "parse.h"
+#include "test.h"
 
 
 int main(int argc, char *argv[])
 {
 
+    /*
     Tree *commandTree = new Tree();
     Parse *parser = new Parse();
     std::vector< std::vector<std::string> > v;
@@ -28,10 +30,11 @@ int main(int argc, char *argv[])
         }
 
     }
-    /*
+    */
+    
     Test mytest;
     mytest.testCommand();
     return 0;
-    */
+    
 }
 

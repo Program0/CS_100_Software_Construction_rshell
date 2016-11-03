@@ -14,6 +14,7 @@
 #include "or_connector.h"
 #include "and_connector.h"
 #include "semicolon_connector.h"
+#include "tree.h"
 
 class Test {
 public:
@@ -21,18 +22,23 @@ public:
     int status;
 
     std::vector<std::string> m;
-    m.push_back(std::string("lm"));
+    m.push_back(std::string("ls"));
     m.push_back(std::string("-l"));
+    
+    std::vector<std::string> con;
+    con.push_back(std::string("&&"));
     std::vector<std::string> n;
     n.push_back(std::string("echo"));
     n.push_back(std::string("command 2"));
+    
+    /*
     Base* ls = new Command(m);
     Base* rs = new Command(n);
     Base* sc = new Semicolon_Connector(ls,rs);
     Base* an = new And_Connector(ls,rs);
     Base* orC = new Or_Connector(ls,rs);
 
-
+    
     std::cout << "semicolon: " << std::endl;
     status = sc->execute();
     std::cout << "Or: " << std::endl;
@@ -51,6 +57,16 @@ public:
     sm->execute();
     
     std::cout<< "Commands succeded? if 0 yes: " << status << std::endl;
+    */
+    status = 69;
+    // Testing the tree class
+    std::vector<std::vector<std::string> > vIn;
+    vIn.push_back(m);
+    //vIn.push_back(n);
+    Tree t;
+    t.build(vIn);
+    t.execute();
+
     return status;
     }
 };
