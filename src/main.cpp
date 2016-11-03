@@ -12,13 +12,20 @@
 int main(int argc, char *argv[])
 {
 
-    Tree commandTree;
-    Parser parser;
-    std::vector< std::vector<std::string> > input;
-
+    Tree commandTree = new Tree();
+    Parse parser = new Parse();
+    std::vector< std::vector<std::string> > v;
+    std::string input;
     while(true){
-
-
+        std::cout << "$ ";
+        cin >> input;
+        p.setInput(input);
+        int result = p.parse(v);
+        if (result > 0) {
+            commandTree.build(v);
+            t.execute();
+            t.clear();
+        }
 
     }
     /*
