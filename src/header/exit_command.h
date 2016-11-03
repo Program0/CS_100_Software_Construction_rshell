@@ -1,7 +1,9 @@
 #ifndef EXIT_COMMAND_H
 #define EXIT_COMMAND_H
 
-class Exit_Command {
+#include "base.h"
+
+class Exit_Command: public Base {
 
 public:
 
