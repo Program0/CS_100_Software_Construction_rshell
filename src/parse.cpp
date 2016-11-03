@@ -9,8 +9,7 @@ void Parse::setInput(std::string input) {
     this->input = input;
 }
 
-int Parse::parse(std::vector< std::vector<std::string> > vOut) {
-std::cout << "parse()" << std::endl;///////////////////////////////////////////
+int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
     vOut.clear();
     if (input.size() == 0) {
         std::cout << "Error: Input is empty." << std::endl;
@@ -28,7 +27,6 @@ std::cout << "parse()" << std::endl;///////////////////////////////////////////
     std::vector<std::string> tempV;
     std::string tempS;
     int firstCmd;
-
     for (int i = 0; i < (int) input.size(); ++i) { //scan entire input
             if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
             firstCmd = i;
@@ -74,7 +72,7 @@ std::cout << "parse()" << std::endl;///////////////////////////////////////////
 
 std::string Parse::trim(std::string str) {
     int j = 0;
-    while (str.at(j) != '#' && j < (int) (str.size() - 1)) {
+    while (j < (int) (str.size()) && str.at(j) != '#') {
         ++j;
     }
     std::string s = str.substr(0, j);    //gets rid of comments
@@ -82,7 +80,7 @@ std::string Parse::trim(std::string str) {
     j = s.size();
     if (s.size() == 0) return s;
  
-    while (s.at(0) == ' ' && i < (j - 1)) {
+    while (s.at(i) == ' ' && i < (j - 1)) {
         i++;
     }
     while (s.at(j - 1) == ' ' && j > i) {

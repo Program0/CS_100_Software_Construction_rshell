@@ -20,7 +20,6 @@ Command::Command(std::vector<std::string> input){
 }
 
 int Command::execute() {
-std::cout << "execute()" << std::endl;
 std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
     pid_t cpid, w;// pid of child and pid of process that has changed 
 

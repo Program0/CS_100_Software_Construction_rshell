@@ -30,9 +30,8 @@ bool Tree::isEmpty() {
 }
 
 void Tree::build(std::vector< std::vector<std::string> > vIn) {
-std::cout << "building" << std::endl;    
+std::cout << "building, vIn size: " << vIn.size() << std::endl;    
         if ((vIn.size() % 2) != 0) {
-std::cout << "yes" << std::endl;
         root = new Command(vIn.at(0));
         if (vIn.size() > 1) {
             int i = 1;
