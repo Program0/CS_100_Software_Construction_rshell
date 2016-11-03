@@ -16,7 +16,7 @@ class Parse {
     public:
         Parse();
         void setInput(std::string input);           //to be set by user during runtime
-        int parse(std::vector<std::vector<std::string>> vOut);  //returns success/failure int
+        int parse(std::vector< std::vector<std::string> > vOut);  //returns success/failure int
         std::string trim(std::string str);
         bool badInput(std::string str, int &i, char connector);
 };

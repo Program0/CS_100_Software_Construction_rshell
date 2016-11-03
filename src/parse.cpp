@@ -9,7 +9,7 @@ void Parse::setInput(std::string input) {
     this->input = input;
 }
 
-int Parse::parse(std::vector<std::vector<std::string>> vOut) {
+int Parse::parse(std::vector< std::vector<std::string> > vOut) {
     vOut.clear();
     if (input.size() > 0) {
         std::cout << "Error: Input is empty." << std::endl;
@@ -25,7 +25,7 @@ int Parse::parse(std::vector<std::vector<std::string>> vOut) {
     typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
     boost::char_separator<char> sep(" ");   //delimiter
     std::vector<std::string> tempV;
-    string tempS;
+    std::string tempS;
     int firstCmd;
 
     for (int i = 0; i < (int) input.size(); ++i) { //scan entire input
@@ -33,7 +33,7 @@ int Parse::parse(std::vector<std::vector<std::string>> vOut) {
             firstCmd = i;
             if (badInput(input, i, input.at(i))) return -1;   //checks for bad connector syntax
 
-            if (root == NULL) {     //if first connector, must make initial left-most command leaf
+            if (vOut.empty()) {     //if first connector, must make initial left-most command leaf
                 tokenizer firstTk(input.substr(0, firstCmd), sep);
                 std::vector<std::string> u;
                 for (tokenizer::iterator itr = firstTk.begin(); itr != firstTk.end(); ++itr) {

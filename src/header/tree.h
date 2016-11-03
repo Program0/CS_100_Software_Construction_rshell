@@ -7,7 +7,7 @@
 // System libraries
 #include <vector>
 #include <string>
-#include <stdlib>
+#include <cstdlib>
 
 // User Libraries
 #include "base.h" // Root - used to polymorphically and recursively call connector or command execute()
