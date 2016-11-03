@@ -1,3 +1,5 @@
+//Marlo Zeroth mzero001@ucr.edu 861309346
+////Emmilio Segovia esego001@ucr.edu 861305177
 #include "parse.h"
 
 Parse::Parse(Base* tree) {
@@ -31,7 +33,7 @@ int Parse::parse() {
     std::vector<std::string> param;
     int firstCmd;
 
-    for (int i = 0; i < input.size(); ++i) { //scan entire input
+    for (int i = 0; i < (int) input.size(); ++i) { //scan entire input
         if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
             firstCmd = i;
             if (badInput(input, i, input.at(i))) return -1;   //checks for bad connector syntax
@@ -47,7 +49,7 @@ int Parse::parse() {
 
             j = i;
             while (input.at(j) != '&' || input.at(j) != '|' ||      //find the end of the next command
-                   input.at(j) != ';' || j <= (input.size() - 1)) {
+                   input.at(j) != ';' || j <= ((int) input.size() - 1)) {
                 ++j;
             }
             tokenizer tokens(input.substr((i + 1), (j - i + 1)), sep);
@@ -81,7 +83,7 @@ int Parse::parse() {
 
 std::string Parse::trim(std::string str) {
     int j = 0;
-    while (str.at(j) != '#' && j < str.size()) {
+    while (str.at(j) != '#' && j < (int) str.size()) {
         ++j;
     }
     std::string s = str.substr(0, j);    //gets rid of comments

@@ -1,3 +1,5 @@
+//Marlo Zeroth mzero001@ucr.edu 861309346
+////Emmilio Segovia esego001@ucr.edu 861305177
 #include "or_connector.h"
 
 Or_Connector::Or_Connector(Base *left, Base *right):Connector_B(left, right){

@@ -1,3 +1,5 @@
+//Marlo Zeroth mzero001@ucr.edu 861309346
+////Emmilio Segovia esego001@ucr.edu 861305177
 #ifndef SEMICOLON_CONNECTOR_H
 #define SEMICOLON_CONNECTOR_H
 
