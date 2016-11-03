@@ -20,20 +20,21 @@ Tree & Tree::operator= (const Tree& tree){
         this->clear();
     this->build(tree.commands);
     this->commands = tree.commands;
+    return *this;
 }
 
 // Returns whether the tree is empty
-boolean Tree::isEmpty() {
+bool Tree::isEmpty() {
     if (root == NULL) return true;
     return false;
 }
 
-void Tree::build(std::vector<std::vector<std::string>> vIn) {
+void Tree::build(std::vector< std::vector<std::string> > vIn) {
     if ((vIn.size() % 2) != 0) {
         root = new Command(vIn.at(0));
         if (vIn.size() > 1) {
             int i = 1;
-            while (i < (vIn.size() - 1)) {
+            while (i < (((int) vIn.size()) - 1)) {
                 if (vIn.at(i).at(0) == "&") {
                    root = new And_Connector(root, new Command(vIn.at(i + 1)));
                 }

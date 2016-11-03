@@ -28,7 +28,7 @@ public:
     /* Constructors and Destructor */
 
     // Default constructor
-    Tree(): root(NULL);
+    Tree();
 
     // Copy constructor 
     Tree(const Tree &tree);
@@ -43,7 +43,7 @@ public:
     void build(std::vector<std::vector<std::string> > vIn);
 
     // Returns whether the tree is empty
-    boolean isEmpty();
+    bool isEmpty();
 
     // Clears the tree of all system calls
     void clear();
