@@ -18,16 +18,16 @@ int main(int argc, char *argv[])
     Parse *parser = new Parse();
     std::vector< std::vector<std::string> > v;
     std::string input;
-    while(true){
+   // while(true){
         std::cout << "$ ";
         std::cin >> input;
         parser->setInput(input);
         int result = parser->parse(v);
-        if (result > 0) {
+        if (result == 0) {
             commandTree->build(v);
             commandTree->execute();
             commandTree->clear();
-        }
+     //   }
 
     }
     */
