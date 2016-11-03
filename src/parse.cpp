@@ -11,7 +11,7 @@ void Parse::setInput(std::string input) {
 
 int Parse::parse(std::vector< std::vector<std::string> > vOut) {
     vOut.clear();
-    if (input.size() > 0) {
+    if (input.size() == 0) {
         std::cout << "Error: Input is empty." << std::endl;
         return -1;
     }

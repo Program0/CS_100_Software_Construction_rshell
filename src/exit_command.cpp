@@ -8,7 +8,8 @@ Exit_Command::Exit_Command(){
 }
 
 // Issues the exit program program
-Exit_Command::int execute(){
+int Exit_Command::execute(){
     // We exit successfully
     exit(EXIT_SUCCESS);
+    return 0;
 }
