@@ -15,6 +15,7 @@ public:
     Tree(Base* root);
     void setRoot(Base* root);
     boolean isEmpty();
+    void build(std::vector<std::vector<std::string>> vIn);
     int execute();
 
 };
