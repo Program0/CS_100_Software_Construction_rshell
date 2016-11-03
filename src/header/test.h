@@ -41,13 +41,13 @@ public:
     status = an->execute();
 
     std::cout << "Test and of and and or connectors " << std::endl;
-    Base* and1 = And_Connector(an, Orc);
+    Base* and1 = new And_Connector(an, orC);
     and1->execute();
     std::cout << "Test or of and semicolong and or connectors " << std::endl;
-    Base* or2 = Or_Connector(sc,orC);
+    Base* or2 = new Or_Connector(sc,orC);
     or2->execute();
     std::cout << "Test semicolon of and and or connectors " << std::endl;
-    Base* sm = Semicolon_Connector(and1,or2);
+    Base* sm = new Semicolon_Connector(and1,or2);
     sm->execute();
     
     std::cout<< "Commands succeded? if 0 yes: " << status << std::endl;
