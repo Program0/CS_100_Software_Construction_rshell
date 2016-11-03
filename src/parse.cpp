@@ -1,21 +1,16 @@
 //Marlo Zeroth mzero001@ucr.edu 861309346
 ////Emmilio Segovia esego001@ucr.edu 861305177
 #include "parse.h"
-
-Parse::Parse(Base* tree) {
-    this->tree = tree;
-}
         
-Parse::Parse(std::string input, Base* tree) {
-    this->input = input;
-    this->tree = tree;
+Parse::Parse() {
 }
 
 void Parse::setInput(std::string input) {
     this->input = input;
 }
 
-int Parse::parse() {
+int Parse::parse(std::vector<std::vector<std::string>> vOut) {
+    vOut.clear();
     if (input.size() > 0) {
         std::cout << "Error: Input is empty." << std::endl;
         return -1;
@@ -29,8 +24,8 @@ int Parse::parse() {
     }
     typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
     boost::char_separator<char> sep(" ");   //delimiter
-    Base* root = NULL;
-    std::vector<std::string> param;
+    std::vector<std::string> tempV;
+    string tempS;
     int firstCmd;
 
     for (int i = 0; i < (int) input.size(); ++i) { //scan entire input
@@ -44,7 +39,7 @@ int Parse::parse() {
                 for (tokenizer::iterator itr = firstTk.begin(); itr != firstTk.end(); ++itr) {
                     u.push_back(*itr);
                 }
-                root = new Command(u);
+                vOut.push_back(u);
             }
 
             j = i;
@@ -57,27 +52,22 @@ int Parse::parse() {
             for (tokenizer::iterator iter = tokens.begin(); iter != tokens.end(); ++iter) {
                 v.push_back(*iter);
             }
-
-            if (input.at(i) == '&') {
-                root = new And_Connector(root, new Command(v));
-            }
-            else if (input.at(i) == '|') {
-                root = new Or_Connector(root, new Command(v));
-            }
-            else if (input.at(i) == ';') {
-                root = new Semicolon_Connector(root, new Command(v));
-            }
+            tempV.clear();
+            tempS = "";
+            tempS += input.at(i);
+            tempV.push_back(tempS);
+            vOut.push_back(tempV);
+            vOut.push_back(v);
         }
     }
-    if (root == NULL) { //case: no connectors
+    if (vOut.empty()) { //case: no connectors
         tokenizer firstTk(input.substr(0, input.size()), sep);
-        std::vector<std::string> u;
+        std::vector<std::string> v;
         for (tokenizer::iterator itr = firstTk.begin(); itr != firstTk.end(); ++itr) {
-            u.push_back(*itr);
+            v.push_back(*itr);
         }
-        root = new Command(u);
+        vOut.push_back(v);
     }
-    this->tree = root;
     return 0;
 }
 
