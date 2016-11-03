@@ -7,7 +7,7 @@
 // System libraries
 #include <string>
 #include <vector>
-
+#include <iostream>
 // User libraries
 #include "base.h"
 

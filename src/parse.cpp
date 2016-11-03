@@ -10,6 +10,7 @@ void Parse::setInput(std::string input) {
 }
 
 int Parse::parse(std::vector< std::vector<std::string> > vOut) {
+std::cout << "parse()" << std::endl;///////////////////////////////////////////
     vOut.clear();
     if (input.size() == 0) {
         std::cout << "Error: Input is empty." << std::endl;
@@ -29,7 +30,7 @@ int Parse::parse(std::vector< std::vector<std::string> > vOut) {
     int firstCmd;
 
     for (int i = 0; i < (int) input.size(); ++i) { //scan entire input
-        if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
+            if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
             firstCmd = i;
             if (badInput(input, i, input.at(i))) return -1;   //checks for bad connector syntax
 
@@ -73,13 +74,14 @@ int Parse::parse(std::vector< std::vector<std::string> > vOut) {
 
 std::string Parse::trim(std::string str) {
     int j = 0;
-    while (str.at(j) != '#' && j < (int) str.size()) {
+    while (str.at(j) != '#' && j < (int) (str.size() - 1)) {
         ++j;
     }
     std::string s = str.substr(0, j);    //gets rid of comments
     int i = 0;
     j = s.size();
     if (s.size() == 0) return s;
+ 
     while (s.at(0) == ' ' && i < (j - 1)) {
         i++;
     }
