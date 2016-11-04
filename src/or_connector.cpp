@@ -16,6 +16,8 @@ Or_Connector::~Or_Connector(){
     }
 }
 
+// Returns success of children proccesses
+// We treat a -1 as a fail to execute and 0 as success
 int Or_Connector::execute(){
     int left = -1; // Status of left child process
     int right= -1; // Status of right child process

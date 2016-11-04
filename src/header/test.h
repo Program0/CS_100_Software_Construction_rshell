@@ -25,12 +25,33 @@ public:
     m.push_back(std::string("ls"));
     m.push_back(std::string("-l"));
     
-    std::vector<std::string> con;
-    con.push_back(std::string("&&"));
+    std::vector<std::string> con1;
+    con1.push_back(std::string("&&"));
+
     std::vector<std::string> n;
-    n.push_back(std::string("echo"));
-    n.push_back(std::string("command 2"));
+    n.push_back(std::string("eho"));
+    n.push_back(std::string("hello world"));
     
+    std::vector<std::string> con2;
+    con2.push_back(std::string(";"));
+
+    std::vector<std::string> n1;
+    n1.push_back(std::string("echo"));
+    n1.push_back(std::string("second connector"));
+
+    std::vector<std::string> con3;
+    con3.push_back(std::string("||"));
+
+    std::vector<std::string> n2;
+    n2.push_back(std::string("exit"));
+
+    std::vector<std::string> con4;
+    con4.push_back(std::string(";"));
+
+    std::vector<std::string> n3;
+    n3.push_back(std::string("ls"));
+
+
     /*
     Base* ls = new Command(m);
     Base* rs = new Command(n);
@@ -62,7 +83,16 @@ public:
     // Testing the tree class
     std::vector<std::vector<std::string> > vIn;
     vIn.push_back(m);
-    //vIn.push_back(n);
+    vIn.push_back(con1);
+    vIn.push_back(n);
+    vIn.push_back(con2);
+    vIn.push_back(n1);
+    vIn.push_back(con3);
+    vIn.push_back(n2);
+    vIn.push_back(con4);
+    vIn.push_back(n3);
+
+    
     Tree t;
     t.build(vIn);
     t.execute();

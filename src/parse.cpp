@@ -54,6 +54,8 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
             tempV.clear();
             tempS = "";
             tempS += input.at(i);
+	    if (input.at(i) != ';')
+	        tempS += input.at(i);
             tempV.push_back(tempS);
             vOut.push_back(tempV);
             vOut.push_back(v);
@@ -72,7 +74,7 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 
 std::string Parse::trim(std::string str) {
     int j = 0;
-    while (j < (int) (str.size()) && str.at(j) != '#') {
+    while (j < (int) (str.size()) && str.at(j) != '#') { //maybe try with (str.size() - 1) if the last char gets cut off
         ++j;
     }
     std::string s = str.substr(0, j);    //gets rid of comments

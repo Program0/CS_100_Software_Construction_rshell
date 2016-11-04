@@ -14,11 +14,14 @@
 // User Libraries
 #include "command.h"
 
-// Accepts array of cstrings terminated by a null pointer
+// Accepts array of strings
 Command::Command(std::vector<std::string> input){
     cmd = input;
 }
 
+
+// Executes the command stored in cmd vector. If successful returns 0, otherwise
+// it returns -1 to indicate failure
 int Command::execute() {
 std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
     pid_t cpid, w;// pid of child and pid of process that has changed 
@@ -62,9 +65,10 @@ std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
 
     // We are in the child process
     else if (cpid==0) {
+        std::cout << "Executing command: " << a[0] << std::endl;
         
         // We close the read end of the pipe in the child
-        close (exec_pipe[1]);
+        close (exec_pipe[0]);
 
         // Now we execute the command   
         if ((status = execvp(a[0],a)) == -1){
@@ -74,26 +78,28 @@ std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
         // Now we write the result to the pipe
         write(exec_pipe[1], &errno, sizeof(int));
      }
-    // We are in the parent process now
-    // We make parent process wait for child processes to exit
-    do {
+     else {
+           // We are in the parent process now
+           // We make parent process wait for child processes to exit
+           do {
 
-       // We close the writing end of the pipe in parent
-       close (exec_pipe[0]);
+           // We close the writing end of the pipe in parent
+           close (exec_pipe[1]);
     
-       //If there was an error during wait we exit 
-       w = waitpid(cpid, &status, WUNTRACED);
-       if (w == -1) {
-            //perror("waitpid");
-            exit(EXIT_FAILURE);
-       }
+           //If there was an error during wait we exit 
+           
+           if ( (w = waitpid(cpid, &status, WUNTRACED)) == -1) {
+               //perror("waitpid");
+               exit(EXIT_FAILURE);
+           }
        
-   } while (!WIFEXITED(status) && !WIFSIGNALED(status));
-    
+        } while (!WIFEXITED(status) && !WIFSIGNALED(status));
+    }
     delete a;
+
     // Return the pid of the successfull call (note if failed would -1)
-   
     result = read(exec_pipe[0], &errno, sizeof(errno));
+
     // If there was something in the pipe other than 0 the process failed to execute
-    return (result!=0)? -1 : 0;
+    return (result==0)? 0 : -1;
 }
