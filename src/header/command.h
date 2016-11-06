@@ -23,5 +23,9 @@ public:
 
     // Overriden functions
     int execute();
+    
+    // Returns that a command is a leaf
+    bool isLeaf();
 };
 #endif
+

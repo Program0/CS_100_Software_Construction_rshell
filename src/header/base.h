@@ -14,6 +14,8 @@ class Base {
 
     // Pure virtual functions:
     virtual int execute() = 0;
+    
+    virtual bool isLeaf() = 0;
 
 };
 #endif

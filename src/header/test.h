@@ -22,25 +22,25 @@ public:
     int status;
 
     std::vector<std::string> m;
-    m.push_back(std::string("ls"));
+    m.push_back(std::string("lm"));
     m.push_back(std::string("-l"));
     
     std::vector<std::string> con1;
-    con1.push_back(std::string("&&"));
+    con1.push_back(std::string("||"));
 
     std::vector<std::string> n;
     n.push_back(std::string("eho"));
     n.push_back(std::string("hello world"));
     
     std::vector<std::string> con2;
-    con2.push_back(std::string(";"));
+    con2.push_back(std::string("&&"));
 
     std::vector<std::string> n1;
     n1.push_back(std::string("echo"));
     n1.push_back(std::string("second connector"));
 
     std::vector<std::string> con3;
-    con3.push_back(std::string("||"));
+    con3.push_back(std::string("&&"));
 
     std::vector<std::string> n2;
     n2.push_back(std::string("exit"));

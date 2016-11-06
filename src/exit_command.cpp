@@ -3,13 +3,17 @@
 
 #include "exit_command.h"
 
-Exit_Command::Exit_Command(){
+// Default constructor
+Exit_Command::Exit_Command() {
 
 }
 
 // Issues the exit program program
-int Exit_Command::execute(){
-    // We exit successfully
-    exit(EXIT_SUCCESS);
-    return 0;
+int Exit_Command::execute() {
+    // We return -1 to signify exit.
+    return -1;
+}
+
+bool Exit_Command::isLeaf() {
+    return true;
 }

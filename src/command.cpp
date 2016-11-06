@@ -1,10 +1,10 @@
 //Marlo Zeroth mzero001@ucr.edu 861309346
-////Emmilio Segovia esego001@ucr.edu 861305177
+//Emmilio Segovia esego001@ucr.edu 861305177
 
 // System libraries
 #include <unistd.h> // For calling fork() and running commands as child
 #include <sys/types.h> // For making a process wait until child finishes
-#include <sys/wait.h> // For wait
+#include <sys/wait.h> // For waitpid function
 #include <stdio.h> // For using perror() and catching errors if sys call failed
 #include <cstdlib> // Basic c functions
 #include <errno.h> // For outputting error after system call
@@ -14,16 +14,19 @@
 // User Libraries
 #include "command.h"
 
-// Accepts array of strings
+// Main constructor
+// Accepts a vector of strings with cmd[0] being the command
+// and parameters after cmd[0].
 Command::Command(std::vector<std::string> input){
     cmd = input;
 }
 
 
-// Executes the command stored in cmd vector. If successful returns 0, otherwise
-// it returns -1 to indicate failure
+// Executes the command with parameters stored in cmd vector. Assumes  
+// command is stored at cmd[0] and parameters after cmd[0]. If successful 
+// returns 0, otherwise it returns the error number to indicate failure.
 int Command::execute() {
-std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
+    std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
     pid_t cpid, w;// pid of child and pid of process that has changed 
 
     // Assuming the call to execv succeeds we set status = 0 
@@ -37,9 +40,9 @@ std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
     char **a = new char* [cmd.size()+1];
 
     // Iterate through the vector and copy the strings 
-    for(unsigned int i = 0; i<cmd.size();i++)
+    for (unsigned int i = 0; i < cmd.size(); i++)
         a[i] = (char*) cmd.at(i).c_str(); // Ugly but need to cast
-    a[cmd.size()]=NULL;
+    a[cmd.size()] = NULL;
 
     // Now we are almost ready to execute
     int exec_pipe[2];// For communicating using a pipe
@@ -47,36 +50,37 @@ std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
     // Create the pipe.
     if (pipe (exec_pipe))
     {
-       perror("pipe failed");
+       perror ("pipe failed");
        return EXIT_FAILURE;
      }
 
-    // We call the fcntl function so that the child can set the FD_CLOEXEC flag
-    // when exevp runs
-    if (fcntl(exec_pipe[1], F_SETFD, fcntl(exec_pipe[1], F_GETFD) | FD_CLOEXEC)) {
-        perror("fcntl failed");
-        return EX_OSERR;
-    }
-
-    if((cpid = fork()) < 0) {
-        perror("process failed");
+ 
+    if ((cpid = fork()) < 0) {
+        perror ("process failed");
         exit(EXIT_FAILURE);
     }
 
     // We are in the child process
-    else if (cpid==0) {
+    else if (cpid == 0) {
         std::cout << "Executing command: " << a[0] << std::endl;
         
         // We close the read end of the pipe in the child
         close (exec_pipe[0]);
+        
+        // We call the fcntl function so that the child can set the FD_CLOEXEC flag
+        // when exevp runs
+        if (fcntl(exec_pipe[1], F_SETFD, fcntl(exec_pipe[1], F_GETFD) | FD_CLOEXEC)) {
+            perror ("fcntl failed");
+            return EX_OSERR;
+        }
 
         // Now we execute the command   
         if ((status = execvp(a[0],a)) == -1){
-               perror(NULL);
+            // Now we write the error number result to the pipe
+            write (exec_pipe[1], &errno, sizeof (int));
+            perror (NULL);
         }
 
-        // Now we write the result to the pipe
-        write(exec_pipe[1], &errno, sizeof(int));
      }
      else {
            // We are in the parent process now
@@ -89,17 +93,25 @@ std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
            //If there was an error during wait we exit 
            
            if ( (w = waitpid(cpid, &status, WUNTRACED)) == -1) {
-               //perror("waitpid");
+               perror ("waitpid");
                exit(EXIT_FAILURE);
            }
        
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
+    
+    // Deallocate the temporary array used with execvp
     delete a;
 
-    // Return the pid of the successfull call (note if failed would -1)
-    result = read(exec_pipe[0], &errno, sizeof(errno));
+    // Return the error number the child process stored in the pipe after execvp. 
+    // If successfull it should return 0 or if it failed return the error number.
+    result = read (exec_pipe[0], &errno, sizeof(errno));
 
-    // If there was something in the pipe other than 0 the process failed to execute
-    return (result==0)? 0 : -1;
+    return result;
 }
+
+// Returns that a command is a leaf
+bool Command::isLeaf(){
+    return true;
+}
+

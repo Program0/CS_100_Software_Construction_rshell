@@ -13,28 +13,30 @@
 int main(int argc, char *argv[])
 {
 
-    /*
+    
     Tree *commandTree = new Tree();
     Parse *parser = new Parse();
     std::vector< std::vector<std::string> > v;
     std::string input;
-    while(true){
+    int noExit = 0;
+    while( noExit >=0 ){
         std::cout << "$ ";
-        std::cin >> input;
+        std::getline(std::cin,input);
         parser->setInput(input);
         int result = parser->parse(v);
         if (result == 0) {
             commandTree->build(v);
-            commandTree->execute();
+            noExit = commandTree->execute();
             commandTree->clear();
         }
 
     }
-    */
     
+    
+    /*
     Test mytest;
     mytest.testCommand();
     return 0;
-    
+    */
 }
 

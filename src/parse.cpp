@@ -1,5 +1,7 @@
 //Marlo Zeroth mzero001@ucr.edu 861309346
-////Emmilio Segovia esego001@ucr.edu 861305177
+//Emmilio Segovia esego001@ucr.edu 861305177
+
+// User libraries
 #include "parse.h"
         
 Parse::Parse() {
