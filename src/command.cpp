@@ -27,6 +27,7 @@ Command::Command(std::vector<std::string> input){
 // returns 0, otherwise it returns the error number to indicate failure.
 int Command::execute() {
     std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
+    std::cout << "command + parameters. Size of cmd: " << cmd.size() << std::endl;
     pid_t cpid, w;// pid of child and pid of process that has changed 
 
     // Assuming the call to execv succeeds we set status = 0 
@@ -43,6 +44,10 @@ int Command::execute() {
     for (unsigned int i = 0; i < cmd.size(); i++)
         a[i] = (char*) cmd.at(i).c_str(); // Ugly but need to cast
     a[cmd.size()] = NULL;
+
+    for (unsigned int i = 0; a[i] != NULL; i++){
+        std::cout << "a[" << i << "]" << a[i] << std::endl;
+    }
 
     // Now we are almost ready to execute
     int exec_pipe[2];// For communicating using a pipe

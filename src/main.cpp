@@ -12,8 +12,9 @@
 
 int main(int argc, char *argv[])
 {
-
-    
+    // Note we need to clear the vector and 
+    // the string passed to parser if we issue
+    // new commands.    
     Tree *commandTree = new Tree();
     Parse *parser = new Parse();
     std::vector< std::vector<std::string> > v;
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
             commandTree->build(v);
             noExit = commandTree->execute();
             commandTree->clear();
+            v.clear();
         }
     }
     

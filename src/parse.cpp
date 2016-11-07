@@ -8,6 +8,7 @@ Parse::Parse() {
 }
 
 void Parse::setInput(std::string input) {
+    this->input.clear();
     this->input = input;
 }
 
