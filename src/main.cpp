@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     int noExit = 0;
     while( noExit >=0 ){
         std::cout << "$ ";
+        std::cin.sync();
         std::getline(std::cin,input);
         parser->setInput(input);
         int result = parser->parse(v);
@@ -29,7 +30,6 @@ int main(int argc, char *argv[])
             noExit = commandTree->execute();
             commandTree->clear();
         }
-
     }
     
     
