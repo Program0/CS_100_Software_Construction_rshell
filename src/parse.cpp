@@ -72,6 +72,13 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
         }
         vOut.push_back(v);
     }
+    
+    for (unsigned int k = 0; k < vOut.size(); k++) {
+        for (unsigned int l = 0; l < vOut.at(k).size(); l++){
+            std::cout << "String saved: " << vOut.at(k).at(l) << std::endl;
+        }
+    }
+    
     return 0;
 }
 
