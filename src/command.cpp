@@ -40,14 +40,17 @@ int Command::execute() {
     // Plus an extra for the null terminated string
     char **a = new char* [cmd.size()+1];
 
+    // Contents of vector
     // Iterate through the vector and copy the strings 
-    for (unsigned int i = 0; i < cmd.size(); i++)
+    for (unsigned int i = 0; i < cmd.size(); i++){
         a[i] = (char*) cmd.at(i).c_str(); // Ugly but need to cast
+        //std::cout << "cmd.at( " << i << ") :" << cmd.at(i) << std::endl;
+    }
     a[cmd.size()] = NULL;
 
-    for (unsigned int i = 0; a[i] != NULL; i++){
-        std::cout << "a[" << i << "]" << a[i] << std::endl;
-    }
+    //for (unsigned int i = 0; a[i] != NULL; i++){
+        //std::cout << "a[" << i << "]" << a[i] << std::endl;
+   //}
 
     // Now we are almost ready to execute
     int exec_pipe[2];// For communicating using a pipe

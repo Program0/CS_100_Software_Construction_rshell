@@ -60,6 +60,12 @@ void Tree::build(std::vector< std::vector<std::string> > vIn) {
         else {
             std::cout << " creating first command" <<std::endl;
             root = new Command(vIn.at(0));
+            // Print the command
+            std::cout << "Vector of vector of string commands size: " << vIn.size() << std::endl;
+            std::cout << "vector of string commands size: " << vIn.at(0).size() << std::endl;
+            for (unsigned int i = 0; i < vIn.at(0).size(); i++) {
+                std::cout << "Vector.at(" << i << ")" << vIn.at(0).at(i) << std::endl;
+            }
         }
         if (vIn.size() > 1) {
             int i = 1;

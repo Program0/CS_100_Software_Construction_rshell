@@ -12,6 +12,7 @@
 
 int main(int argc, char *argv[])
 {
+    
     // Note we need to clear the vector and 
     // the string passed to parser if we issue
     // new commands.    
@@ -33,9 +34,9 @@ int main(int argc, char *argv[])
             v.clear();
         }
     }
-    
-    
     /*
+    
+    
     Test mytest;
     mytest.testCommand();
     return 0;
