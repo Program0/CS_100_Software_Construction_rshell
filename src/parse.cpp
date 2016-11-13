@@ -65,10 +65,13 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
         }
     }
     if (vOut.empty()) { //case: no connectors
-        tokenizer firstTk(input.substr(0, input.size()), sep);
+        std::cout << "string parsed: " << input.substr(0, input.size()) << std::endl;
+        //tokenizer firstTk(input.substr(0, input.size()), sep); // Does not work. What if we change the substring?
+        boost::tokenizer<>firstTk(input);// Works with more than one parameter
         std::vector<std::string> v;
-        for (tokenizer::iterator itr = firstTk.begin(); itr != firstTk.end(); ++itr) {
+        for (boost::tokenizer<>::iterator itr = firstTk.begin(); itr != firstTk.end(); itr++) {
             v.push_back(*itr);
+            std::cout << "adding " << *itr << " to vector" << std::endl;
         }
         vOut.push_back(v);
     }
