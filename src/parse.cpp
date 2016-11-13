@@ -8,41 +8,47 @@ Parse::Parse() {
 }
 
 void Parse::setInput(std::string input) {
+	//sets the input string to be processed
     this->input.clear();
     this->input = input;
 }
 
 int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
-    vOut.clear();
-    if (input.size() == 0) {
-        std::cout << "Error: Input is empty." << std::endl;
-        return -1;
-    }
-    input = trim(input);   //check for leading/trailing connector error
-    int j = input.size() - 1;
-    if (input.at(0) == '&' || input.at(0) == '|' || input.at(0) == ';' ||
-        input.at(j) == '&' || input.at(j) == '|' || input.at(j) == ';') {
-        std::cout << "Error: Invalid input" << std::endl; //DO WE WANT THIS HERE???
-        return -1;
-    }
-    typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-    boost::char_separator<char> sep(" ");   //delimiter
-    std::vector<std::string> tempV;
-    std::string tempS;
-    int firstCmd;
-    for (int i = 0; i < (int) input.size(); ++i) { //scan entire input
-            if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
-            firstCmd = i;
-            if (badInput(input, i, input.at(i))) return -1;   //checks for bad connector syntax
+	vOut.clear(); //clears the last vector to receive new output
+	//check if empty input
+	if (input.size() == 0) {
+		std::cout << "Error: Input is empty." << std::endl;
+		return -1;
+	}
+	input = trim(input);
+	int j = input.size() - 1;
+	//check for leading/trailing connector syntax errors
+	if (input.at(0) == '&' || input.at(0) == '|' || input.at(0) == ';' ||
+		input.at(j) == '&' || input.at(j) == '|' || input.at(j) == ';') {
+		std::cout << "Error: Invalid input" << std::endl; //DO WE WANT THIS HERE???
+		return -1;
+	}
+	//set up string tokenizer
+	typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
+	boost::char_separator<char> sep(" ");   //delimiter
+	std::vector<std::string> tempV;
+	std::string tempS;
+	int firstCmd;
+	for (int i = 0; i < (int)input.size(); ++i) { //scan entire input
+		//only does work at the connectors
+		if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
+			firstCmd = i;
+			if (badInput(input, i, input.at(i))) return -1;   //checks for bad connector syntax
 
-            if (vOut.empty()) {     //if first connector, must make initial left-most command leaf
-                tokenizer firstTk(input.substr(0, firstCmd), sep);
-                std::vector<std::string> u;
-                for (tokenizer::iterator itr = firstTk.begin(); itr != firstTk.end(); ++itr) {
-                    u.push_back(*itr);
-                }
-                vOut.push_back(u);
-            }
+			if (vOut.empty()) {     //if first connector, must make initial left-most command leaf
+				tokenizer firstTk(input.substr(0, firstCmd), sep);
+				std::vector<std::string> u;
+				//fill the command vector with command and parameters
+				for (tokenizer::iterator itr = firstTk.begin(); itr != firstTk.end(); ++itr) {
+					u.push_back(*itr);
+				}
+				vOut.push_back(u);
+			}
 
             j = i;
             while (input.at(j) != '&' || input.at(j) != '|' ||      //find the end of the next command
@@ -81,26 +87,34 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
             std::cout << "String saved: " << vOut.at(k).at(l) << std::endl;
         }
     }
-    
     return 0;
 }
 
 std::string Parse::trim(std::string str) {
+	if (s.size() == 0) return s;
     int j = 0;
-    while (j < (int) (str.size()) && str.at(j) != '#') { //maybe try with (str.size() - 1) if the last char gets cut off
+	bool inQuote = false;
+	//find the last relevant character in the string to get rid of any comments
+    while (j < (int) (str.size()) && !inQuote && str.at(j) != '#') {
+		//flags string-literal status "inQuote" to
+		//make sure that the comment is not in a string-literal
+		if (str.at(j) == '"') {
+			if (inQuote) inQuote = false;
+			else inQuote = true;
+		}
         ++j;
     }
-    std::string s = str.substr(0, j);    //gets rid of comments
-    int i = 0;
-    j = s.size();
-    if (s.size() == 0) return s;
- 
+    std::string s = str.substr(0, j);    //cut off irrelevant end of string
+    int i = 0; //left side edge
+    j = s.size(); //right side edge
+	//ignore any spaces
     while (s.at(i) == ' ' && i < (j - 1)) {
         i++;
     }
     while (s.at(j - 1) == ' ' && j > i) {
         j--;
     }
+	//cuts off spaces on the ends of the string
     return s.substr(i, (j - i));    
 }
 
