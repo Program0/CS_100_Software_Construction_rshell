@@ -4,7 +4,7 @@
 #For compilation
 
 CC=g++
-CC_FLAGS= -Wall -Werror -ansi -pedantic
+CC_FLAGS= -g -Wall -Werror -ansi -pedantic
 
 #Folder structure
 BIN_DIR:=bin

@@ -22,7 +22,7 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 	}
 	input = trim(input);
 	int j = input.size() - 1;
-	//check for leading/trailing connector syntax errors
+	//check for leading/trailing connector syntax enp p rrors
 	if (input.at(0) == '&' || input.at(0) == '|' || input.at(0) == ';' ||
 		input.at(j) == '&' || input.at(j) == '|' || input.at(j) == ';') {
 		std::cout << "Error: Invalid input" << std::endl; //DO WE WANT THIS HERE???
@@ -51,8 +51,8 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 			}
 
             j = i;
-            while (input.at(j) != '&' || input.at(j) != '|' ||      //find the end of the next command
-                   input.at(j) != ';' || j <= ((int) input.size() - 1)) {
+            while (j <= ((int) input.size() - 1) && ( input.at(j) != '&'      //find the end of the next command
+                   || input.at(j) != '|' || input.at(j) != ';')) {
                 ++j;
             }
             tokenizer tokens(input.substr((i + 1), (j - i + 1)), sep);
@@ -91,7 +91,7 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 }
 
 std::string Parse::trim(std::string str) {
-	if (s.size() == 0) return s;
+	if (str.size() == 0) return str;
     int j = 0;
 	bool inQuote = false;
 	//find the last relevant character in the string to get rid of any comments
