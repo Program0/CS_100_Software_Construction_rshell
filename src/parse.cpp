@@ -82,7 +82,7 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
             tempV.clear();
             tempS = "";
             tempS += input.at(i - 1); //save connector char as tree flag
-	    if (input.at(i) != ';')
+	    if (input.at(i - 1) != ';')
 	        tempS += input.at(i - 1); //double char flag if necessary
             tempV.push_back(tempS); //store flag into a vector<string>
             vOut.push_back(tempV); //store vector of next command
