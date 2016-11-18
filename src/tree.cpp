@@ -50,7 +50,7 @@ bool Tree::isEmpty() {
 
 // Builds the tree based on the passed commands in vector vIn
 void Tree::build(std::vector< std::vector<std::string> > vIn) {
-    this->commands = vIn;
+    this->commands = vIn;   
     if ((vIn.size() % 2) != 0) {
         if (vIn.at(0).at(0) == "exit") {
             root = new Exit_Command();
@@ -62,7 +62,6 @@ void Tree::build(std::vector< std::vector<std::string> > vIn) {
             int i = 1;
             Base* command;
             while (i < (((int) vIn.size()) - 1)) {
-                std::cout<< " i is: " << i << " and i + 1 is " << (i+1) << std::endl;
                 if (vIn.at(i + 1).at(0) == "exit") {
                     command = new Exit_Command();
                 }

@@ -52,12 +52,14 @@ int Command::execute() {
     if (pipe (exec_pipe))
     {
        perror ("pipe failed");
+       delete a;
        return EXIT_FAILURE;
      }
 
  
     if ((cpid = fork()) < 0) {
         perror ("process failed");
+	delete a;
         exit(EXIT_FAILURE);
     }
 
@@ -71,6 +73,7 @@ int Command::execute() {
         // when exevp runs
         if (fcntl(exec_pipe[1], F_SETFD, fcntl(exec_pipe[1], F_GETFD) | FD_CLOEXEC)) {
             perror ("fcntl failed");
+            delete a;
             return EX_OSERR;
         }
 
@@ -94,6 +97,7 @@ int Command::execute() {
            
            if ( (w = waitpid(cpid, &status, WUNTRACED)) == -1) {
                perror ("waitpid");
+	       delete a;
                exit(EXIT_FAILURE);
            }
        
