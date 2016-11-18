@@ -1,5 +1,5 @@
-//Marlo Zeroth mzero001@ucr.edu 861309346
-////Emmilio Segovia esego001@ucr.edu 861305177
+// Marlo Zeroth mzero001@ucr.edu 861309346
+// Emmilio Segovia esego001@ucr.edu 861305177
 #ifndef BASE_H
 #define BASE_H
 
@@ -15,6 +15,7 @@ class Base {
     // Pure virtual functions:
     virtual int execute() = 0;
     
+    // Returns whether this node is a leaf or not.
     virtual bool isLeaf() = 0;
 
 };

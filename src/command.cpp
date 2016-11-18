@@ -1,5 +1,5 @@
-//Marlo Zeroth mzero001@ucr.edu 861309346
-//Emmilio Segovia esego001@ucr.edu 861305177
+// Marlo Zeroth mzero001@ucr.edu 861309346
+// Emmilio Segovia esego001@ucr.edu 861305177
 
 // System libraries
 #include <unistd.h> // For calling fork() and running commands as child
@@ -26,8 +26,6 @@ Command::Command(std::vector<std::string> input){
 // command is stored at cmd[0] and parameters after cmd[0]. If successful 
 // returns 0, otherwise it returns the error number to indicate failure.
 int Command::execute() {
-    std::cout << "command: <" << cmd.at(0) << ">" << std::endl;
-    std::cout << "command + parameters. Size of cmd: " << cmd.size() << std::endl;
     pid_t cpid, w;// pid of child and pid of process that has changed 
 
     // Assuming the call to execv succeeds we set status = 0 
@@ -44,16 +42,11 @@ int Command::execute() {
     // Iterate through the vector and copy the strings 
     for (unsigned int i = 0; i < cmd.size(); i++){
         a[i] = (char*) cmd.at(i).c_str(); // Ugly but need to cast
-        //std::cout << "cmd.at( " << i << ") :" << cmd.at(i) << std::endl;
     }
     a[cmd.size()] = NULL;
 
-    //for (unsigned int i = 0; a[i] != NULL; i++){
-        //std::cout << "a[" << i << "]" << a[i] << std::endl;
-   //}
-
     // Now we are almost ready to execute
-    int exec_pipe[2];// For communicating using a pipe
+    int exec_pipe[2];// Pipe for communicating between chilld and parent process
         
     // Create the pipe.
     if (pipe (exec_pipe))
@@ -70,7 +63,6 @@ int Command::execute() {
 
     // We are in the child process
     else if (cpid == 0) {
-        std::cout << "Executing command: " << a[0] << std::endl;
         
         // We close the read end of the pipe in the child
         close (exec_pipe[0]);

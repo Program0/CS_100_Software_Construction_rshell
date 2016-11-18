@@ -1,5 +1,5 @@
-//Marlo Zeroth mzero001@ucr.edu 861309346
-////Emmilio Segovia esego001@ucr.edu 861305177
+// Marlo Zeroth mzero001@ucr.edu 861309346
+// Emmilio Segovia esego001@ucr.edu 861305177
 
 #ifndef COMMAND_H
 #define COMMAND_H
@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+
 // User libraries
 #include "base.h"
 
