@@ -55,8 +55,11 @@ void Tree::build(std::vector< std::vector<std::string> > vIn) {
         if (vIn.at(0).at(0) == "exit") {
             root = new Exit_Command();
         }
+        else if (vIn.at(0).at(0) == "test"){
+            root = new Test_Command(vIn.at(0));
+            }
         else {
-            root = new Command(vIn.at(0));
+            root = new System_Call(vIn.at(0));
         }
         if (vIn.size() > 1) {
             int i = 1;
@@ -64,15 +67,18 @@ void Tree::build(std::vector< std::vector<std::string> > vIn) {
             while (i < (((int) vIn.size()) - 1)) {
                 if (vIn.at(i + 1).at(0) == "exit") {
                     command = new Exit_Command();
+                }              
+                else if (vIn.at(i + 1).at(0) == "test"){
+                    command = new Test_Command(vIn.at(i + 1));
                 }
                 else {
-                    command = new Command(vIn.at(i + 1));
+                    command = new System_Call(vIn.at(i + 1));
                 }
     
-                if (vIn.at(i).at(0) == "&") {
+                if (vIn.at(i).at(0) == "&&") {
                     root = new And_Connector(root, command);
                 }
-                else if (vIn.at(i).at(0) == "|") {
+                else if (vIn.at(i).at(0) == "||") {
                    root = new Or_Connector(root, command);
                 }
                 else if (vIn.at(i).at(0) == ";") {
@@ -100,6 +106,7 @@ int Tree::execute(){
 
 /* Utility functions */
 
+/*
 // Recursively executes the commands stored in the tree in post order
 // and ends recursion if any of the commands is the exit command.
 int Tree::executeCommand(Base * node, int status){
@@ -125,4 +132,6 @@ int Tree::executeCommand(Base * node, int status){
         return status;
     }
 }
+*/
+
 

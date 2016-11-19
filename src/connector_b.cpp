@@ -1,5 +1,5 @@
-// Marlo Zeroth mzero001@ucr.edu 861309346
-// Emmilio Segovia esego001@ucr.edu 861305177
+//Marlo Zeroth mzero001@ucr.edu 861309346
+//Emmilio Segovia esego001@ucr.edu 861305177
 
 #include "connector_b.h"
 
@@ -23,13 +23,23 @@ Connector_B::~Connector_B() {
     }
 }
 
+// Returns left child
+Base * Connector_B::get_left(){
+    return leftChild;
+}
+
+// Returns right child
+Base * Connector_B::get_right(){
+    return rightChild;
+}
+
+// Stub
+void Connector_B::print(){
+
+}
+
 // Overriden execute()
 int Connector_B::execute(){
     return 0;
-}
-
-// Returns that the connector is not a leaf
-bool Connector_B::isLeaf() {
-    return false;
 }
 
