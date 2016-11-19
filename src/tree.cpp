@@ -50,55 +50,44 @@ bool Tree::isEmpty() {
 
 // Builds the tree based on the passed commands in vector vIn
 void Tree::build(std::vector< std::vector<std::string> > vIn) {
-    this->commands = vIn;
-    std::cout << "building, vIn size: " << vIn.size() << std::endl;    
+    this->commands = vIn;   
     if ((vIn.size() % 2) != 0) {
         if (vIn.at(0).at(0) == "exit") {
-            std::cout<< "Creating exit command" << std::endl;
             root = new Exit_Command();
         }
-        else {
-            std::cout << " creating first command" <<std::endl;
-            root = new Command(vIn.at(0));
-            // Print the command
-            std::cout << "Vector of vector of string commands size: " << vIn.size() << std::endl;
-            std::cout << "vector of string commands size: " << vIn.at(0).size() << std::endl;
-            for (unsigned int i = 0; i < vIn.at(0).size(); i++) {
-                std::cout << "Vector.at(" << i << ")" << vIn.at(0).at(i) << std::endl;
+        else if (vIn.at(0).at(0) == "test"){
+            root = new Test_Command(vIn.at(0));
             }
+        else {
+            root = new System_Call(vIn.at(0));
         }
         if (vIn.size() > 1) {
             int i = 1;
             Base* command;
             while (i < (((int) vIn.size()) - 1)) {
-                std::cout<< " i is: " << i << " and i + 1 is " << (i+1) << std::endl;
                 if (vIn.at(i + 1).at(0) == "exit") {
-                    std::cout<< "Creating exit command at i = " << i << std::endl;
                     command = new Exit_Command();
+                }              
+                else if (vIn.at(i + 1).at(0) == "test"){
+                    command = new Test_Command(vIn.at(i + 1));
                 }
                 else {
-                    std::cout << "Creating regular command " << vIn.at(i+1).at(0) << " at i + 1 = " << i+1 << std::endl;
-                    command = new Command(vIn.at(i + 1));
-                    std::cout << "Added command " << vIn.at(i+1).at(0) << std::endl;
+                    command = new System_Call(vIn.at(i + 1));
                 }
     
-                if (vIn.at(i).at(0) == "&") {
-                    std::cout << "Creating && connector at i = " << i << " " << vIn.at(i).at(0) << std::endl;
+                if (vIn.at(i).at(0) == "&&") {
                     root = new And_Connector(root, command);
                 }
-                else if (vIn.at(i).at(0) == "|") {
-                   std::cout << "Creating || connector at i = " << i << " " << vIn.at(i).at(0) << std::endl;
+                else if (vIn.at(i).at(0) == "||") {
                    root = new Or_Connector(root, command);
                 }
                 else if (vIn.at(i).at(0) == ";") {
-                    std::cout << "Creating ; connector at i = " << i << " " << vIn.at(i).at(0) << std::endl;
                     root = new Semicolon_Connector(root, command);
                 }
                 i += 2;
             }
         }
     }
-std::cout<< "Finished creating tree " << std::endl;
 }
 
 // Empty the tree
@@ -117,6 +106,7 @@ int Tree::execute(){
 
 /* Utility functions */
 
+/*
 // Recursively executes the commands stored in the tree in post order
 // and ends recursion if any of the commands is the exit command.
 int Tree::executeCommand(Base * node, int status){
@@ -142,4 +132,6 @@ int Tree::executeCommand(Base * node, int status){
         return status;
     }
 }
+*/
+
 

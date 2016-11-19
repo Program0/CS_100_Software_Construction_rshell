@@ -10,10 +10,12 @@
 
 // User Libraries
 #include "base.h"
-#include "command.h"
-#include "or_connector.h"
 #include "and_connector.h"
+#include "or_connector.h"
 #include "semicolon_connector.h"
+#include "system_call.h"
+#include "exit_command.h"
+#include "test_command.h"
 #include "tree.h"
 
 class Test {
@@ -50,35 +52,11 @@ public:
 
     std::vector<std::string> n3;
     n3.push_back(std::string("ls"));
-
-
-    /*
-    Base* ls = new Command(m);
-    Base* rs = new Command(n);
-    Base* sc = new Semicolon_Connector(ls,rs);
-    Base* an = new And_Connector(ls,rs);
-    Base* orC = new Or_Connector(ls,rs);
-
     
-    std::cout << "semicolon: " << std::endl;
-    status = sc->execute();
-    std::cout << "Or: " << std::endl;
-    status = orC->execute();
-    std::cout << "And: " << std::endl;
-    status = an->execute();
+    std::vector<std::string> n4;
+    n4.push_back(std::string("test"));
 
-    std::cout << "Test and of and and or connectors " << std::endl;
-    Base* and1 = new And_Connector(an, orC);
-    and1->execute();
-    std::cout << "Test or of and semicolong and or connectors " << std::endl;
-    Base* or2 = new Or_Connector(sc,orC);
-    or2->execute();
-    std::cout << "Test semicolon of and and or connectors " << std::endl;
-    Base* sm = new Semicolon_Connector(and1,or2);
-    sm->execute();
-    
-    std::cout<< "Commands succeded? if 0 yes: " << status << std::endl;
-    */
+
     status = 69;
     // Testing the tree class
     std::vector<std::vector<std::string> > vIn;
@@ -91,12 +69,15 @@ public:
     vIn.push_back(n2);
     vIn.push_back(con4);
     vIn.push_back(n3);
+    //vIn.push_back(con4);
+    //vIn.push_back(n4);
 
     
     Tree t;
     t.build(vIn);
     t.execute();
-
+    
+    std::cout << "concluded tests." << std::endl;
     return status;
     }
 };

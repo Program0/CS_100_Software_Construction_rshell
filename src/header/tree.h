@@ -11,12 +11,13 @@
 
 // User Libraries
 #include "base.h" // Root - used to polymorphically and recursively call connector or command execute()
-#include "command.h" // Leaf - performs system calls
-#include "exit_command.h" // Leaf - performs exit command
-#include "and_connector.h" // Node - connects leaves using logical && connector
-#include "or_connector.h" // Node - connects leaves using logical || connector
-#include "semicolon_connector.h" // Node - connects leaves using ; connector
-
+#include "command.h"
+#include "system_call.h"
+#include "exit_command.h"
+#include "test_command.h"
+#include "and_connector.h"
+#include "or_connector.h"
+#include "semicolon_connector.h"
 
 class Tree {
 private:
