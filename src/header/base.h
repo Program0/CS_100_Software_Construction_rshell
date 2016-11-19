@@ -13,11 +13,9 @@ class Base {
     virtual ~Base(){};
 
     // Pure virtual functions:
-    
-    virtual void print() = 0;
-    
-    // Executes a command returns the success status as an int
     virtual int execute() = 0;
-};
+    
+    virtual bool isLeaf() = 0;
 
-#endif // BASE_H
+};
+#endif

@@ -1,5 +1,5 @@
-// Marlo Zeroth mzero001@ucr.edu 861309346
-// Emmilio Segovia esego001@ucr.edu 861305177
+//Marlo Zeroth mzero001@ucr.edu 861309346
+//Emmilio Segovia esego001@ucr.edu 861305177
 
 /*
 *  Emmulates the behavior of a logical binary operator in the 
@@ -13,7 +13,6 @@
 
 #include "base.h"
 
-// Defines the binary connector class.
 class Connector_B : public Base {
 protected:
     Base *leftChild;
@@ -26,15 +25,12 @@ public:
     
     // Destructor
     virtual ~Connector_B();
-        
-    // Accesor functions
-    Base * get_left();
-    Base * get_right();
-    
-    void print();
 
     // Executes the commands stored in the left and right child
-    int execute() = 0;
+    int execute();
+    
+    // Returns whether the connector is a leaf. Always returns false.
+    bool isLeaf();
 };
 
 #endif // CONNECTOR_B_H

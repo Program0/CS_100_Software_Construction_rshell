@@ -12,7 +12,6 @@
 
 #include "base.h"
 
-// Defines the unary connector class.
 class Connector_U : public Base {
 protected:
     Base *child;
@@ -23,15 +22,10 @@ public:
 
     // Destructor
    virtual ~Connector_U();
-   
-    // Accesors functions
-    Base * get_left();
-    Base * get_right();
+
+    int execute();
     
-    void print();
-    
-    // Overrides Base's execute function
-    int execute() = 0;
+    bool isLeaf();
 };
 
 #endif // CONNECTOR_U_H

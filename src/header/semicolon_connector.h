@@ -22,16 +22,8 @@ public:
     // Destructor
     virtual ~Semicolon_Connector();
     
-    /* 
-    *  Overrides Base execute. Returns a value > 0 if the right 
-    *  child command successfuly executed, returns -1 if an exit 
-    *  command was executed, or returns 0 if the right child  
-    *  executedsuccessfully. If return value is > 0 then value   
-    *  is the pid number of the right child execute() function.
-    */
-
+    // Overrides the execute in the base class
     int execute();
 };
-
 #endif
 

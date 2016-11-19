@@ -13,7 +13,6 @@
 #include "connector_b.h"
 #include "base.h"
 
-// Defines the || connector.
 class Or_Connector : public Connector_B {
 public:
 
@@ -22,15 +21,8 @@ public:
     
     // Destructor
     virtual ~Or_Connector();
-    
-    /* 
-    *  Overrides Base execute. Returns a value > 0 if both commands
-    *  unsuccessfuly executed, returns -1 if an exit command
-    *  was executed, or returns 0 if the right child executed 
-    *  successfully. If return value is > 0 then value is the  
-    *  pid number of the right child execute() function.
-    */
 
+    // Executes the commands
     int execute();
 };
 

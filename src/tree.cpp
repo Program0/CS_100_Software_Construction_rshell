@@ -39,6 +39,10 @@ Tree & Tree::operator= (const Tree& tree){
     return *this;
 }
 
+void Tree::setRoot(Base* r) {
+	root = r;
+}
+
 // Returns whether the tree is empty
 bool Tree::isEmpty() {
 
@@ -49,45 +53,49 @@ bool Tree::isEmpty() {
 }
 
 // Builds the tree based on the passed commands in vector vIn
-void Tree::build(std::vector< std::vector<std::string> > vIn) {
-    this->commands = vIn;   
-    if ((vIn.size() % 2) != 0) {
-        if (vIn.at(0).at(0) == "exit") {
-            root = new Exit_Command();
-        }
-        else if (vIn.at(0).at(0) == "test"){
-            root = new Test_Command(vIn.at(0));
-            }
-        else {
-            root = new System_Call(vIn.at(0));
-        }
-        if (vIn.size() > 1) {
-            int i = 1;
-            Base* command;
-            while (i < (((int) vIn.size()) - 1)) {
-                if (vIn.at(i + 1).at(0) == "exit") {
-                    command = new Exit_Command();
-                }              
-                else if (vIn.at(i + 1).at(0) == "test"){
-                    command = new Test_Command(vIn.at(i + 1));
-                }
-                else {
-                    command = new System_Call(vIn.at(i + 1));
-                }
-    
-                if (vIn.at(i).at(0) == "&&") {
-                    root = new And_Connector(root, command);
-                }
-                else if (vIn.at(i).at(0) == "||") {
-                   root = new Or_Connector(root, command);
-                }
-                else if (vIn.at(i).at(0) == ";") {
-                    root = new Semicolon_Connector(root, command);
-                }
-                i += 2;
-            }
-        }
-    }
+Base* Tree::build(std::vector< std::vector<std::string> > vIn) {
+	if (vIn.size() == 1) {
+		if (vIn.at(0).at(0) == "Test" || vIn.at(0).at(0) == "[")
+			return new Test_Command(vIn.at(0));
+		return new System_Call(vIn.at(0));
+	}
+	Base *left = NULL, *right = NULL;
+	int i = vIn.size() - 1;
+	while (i > 0 && vIn.at(i).at(0) != "&&" && vIn.at(i).at(0) != "||" && vIn.at(i).at(0) != ";") {
+		--i;
+	}
+	std::vector< std::vector<std::string> >::const_iterator first;
+	std::vector< std::vector<std::string> >::const_iterator last;
+	if (vIn.at(i).at(0) == ")") {
+		std::stringstream convert;
+		int j; //j will be the number of the corresponding left parenth
+		convert << vIn.at(i).at(1);
+		convert >> j;
+		first = vIn.begin() + (j + 1);
+		last = vIn.begin() + i;
+		std::vector< std::vector<std::string> > subV1(first, last);
+		right = build(subV1);
+		i = j - 1; //check the next element to the left
+	}
+	if (right == NULL) { //make the right child the unparenthesized command
+		if (vIn.at(0).at(0) == "Test" || vIn.at(0).at(0) == "[")
+			return new Test_Command(vIn.at(0));
+		return new System_Call(vIn.at(0));
+	}
+	first = vIn.begin();
+	last = vIn.begin() + (i -1);
+	std::vector< std::vector<std::string> > subV2(first, last);
+	left = build(subV2);
+	if (vIn.at(i).at(0) == "&&")
+		return new And_Connector(left, right);
+	if (vIn.at(i).at(0) == "||")
+		return new Or_Connector(left, right);
+	if (vIn.at(i).at(0) == ";")
+		return new Semicolon_Connector(left, right);
+	
+	std::vector<std::string> defaultV; //if bad input, make empty command
+	defaultV.push_back("");
+	return new Command(defaultV);
 }
 
 // Empty the tree
@@ -106,7 +114,6 @@ int Tree::execute(){
 
 /* Utility functions */
 
-/*
 // Recursively executes the commands stored in the tree in post order
 // and ends recursion if any of the commands is the exit command.
 int Tree::executeCommand(Base * node, int status){
@@ -132,6 +139,4 @@ int Tree::executeCommand(Base * node, int status){
         return status;
     }
 }
-*/
-
 

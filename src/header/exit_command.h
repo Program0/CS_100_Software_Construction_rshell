@@ -15,22 +15,21 @@
 #include <stdlib.h>
 
 // User libraries
-#include "command.h"
+#include "base.h"
 
-// Issues the exit command. 
-class Exit_Command: public Command {
+class Exit_Command: public Base {
 
 public:
 
-    // Default constructor
+    // Empty constructor
     Exit_Command();
-    
-    // Main constructor
-    Exit_Command(std::vector<std::string> input);
-    
-    // Always returns -1 as flag to exit the rshell
-    int execute();
-};
 
-#endif // EXIT_COMMAND_H
+    // Issues the exit program program
+    int execute();
+    
+    // Returns that his command is a leaf
+    bool isLeaf();
+
+};
+#endif
 
