@@ -33,7 +33,7 @@ int System_Call::execute() {
        return EXIT_FAILURE;
      }
 
- 
+    // We fork here and split into parent and child processes.
     if ((cpid = fork()) < 0) {
         perror ("process failed");
         exit(EXIT_FAILURE);

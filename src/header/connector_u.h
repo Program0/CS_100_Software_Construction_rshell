@@ -10,8 +10,13 @@
 #ifndef CONNECTOR_U_H
 #define CONNECTOR_U_H
 
+// System Libraries
+#include <cstddef> // For NULL
+
+// User Libraries
 #include "base.h"
 
+// Defines the unary connector class.
 class Connector_U : public Base {
 protected:
     Base *child;
@@ -22,10 +27,15 @@ public:
 
     // Destructor
    virtual ~Connector_U();
-
-    int execute();
+   
+    // Accesors functions
+    Base * get_left();
+    Base * get_right();
     
-    bool isLeaf();
+    void print();
+    
+    // Overrides Base's execute function
+    int execute() = 0;
 };
 
 #endif // CONNECTOR_U_H

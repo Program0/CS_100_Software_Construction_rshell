@@ -44,10 +44,9 @@ int Or_Connector::execute(){
         }
     
     // If both failed to execute, we return the error of the right
-    // child command. Otherwise, we return sucess.
+    // child command. Otherwise, we return success.
     if (left > 0 && right > 0) 
        return right;
     else 
        return 0;
 }
-

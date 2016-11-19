@@ -8,12 +8,12 @@ Exit_Command::Exit_Command() {
 
 }
 
+Exit_Command::Exit_Command(std::vector<std::string> input) : Command(input){
+
+}
+
 // Issues the exit program program
 int Exit_Command::execute() {
     // We return -1 to signify exit.
     return -1;
-}
-
-bool Exit_Command::isLeaf() {
-    return true;
 }

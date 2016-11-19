@@ -51,4 +51,3 @@ int And_Connector::execute() {
     else
         return right;
 }
-

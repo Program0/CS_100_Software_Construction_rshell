@@ -40,4 +40,3 @@ int Semicolon_Connector::execute() {
     // We return the result of executing the right child command.
     return right;
 }
-
