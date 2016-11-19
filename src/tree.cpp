@@ -53,40 +53,41 @@ bool Tree::isEmpty() {
 }
 
 // Builds the tree based on the passed commands in vector vIn
+// works from right to left so that it works even when there is no parenthesis
 Base* Tree::build(std::vector< std::vector<std::string> > vIn) {
 	if (vIn.size() == 1) {
-		if (vIn.at(0).at(0) == "Test" || vIn.at(0).at(0) == "[")
+		if (vIn.at(0).at(0) == "Test" || vIn.at(0).at(0) == "[") //if the base single left-most command, return it
 			return new Test_Command(vIn.at(0));
 		return new System_Call(vIn.at(0));
 	}
 	Base *left = NULL, *right = NULL;
-	int i = vIn.size() - 1;
-	while (i > 0 && vIn.at(i).at(0) != "&&" && vIn.at(i).at(0) != "||" && vIn.at(i).at(0) != ";") {
+	int i = vIn.size() - 1; //start from the right and go leftwards
+	while (i > 0 && vIn.at(i).at(0) != "&&" && vIn.at(i).at(0) != "||" && vIn.at(i).at(0) != ";") { //keep going left until a connector is found
 		--i;
 	}
-	std::vector< std::vector<std::string> >::const_iterator first;
+	std::vector< std::vector<std::string> >::const_iterator first; //these are the boundaries of the sub vector
 	std::vector< std::vector<std::string> >::const_iterator last;
 	if (vIn.at(i).at(0) == ")") {
 		std::stringstream convert;
-		int j; //j will be the number of the corresponding left parenth
-		convert << vIn.at(i).at(1);
+		int j; //j will be the index of the corresponding left parenthesis
+		convert << vIn.at(i).at(1); //we get this index from the second element of the ")" vector
 		convert >> j;
 		first = vIn.begin() + (j + 1);
 		last = vIn.begin() + i;
-		std::vector< std::vector<std::string> > subV1(first, last);
-		right = build(subV1);
+		std::vector< std::vector<std::string> > subV1(first, last); //create the subvector
+		right = build(subV1); set the subvector as right
 		i = j - 1; //check the next element to the left
 	}
-	if (right == NULL) { //make the right child the unparenthesized command
-		if (vIn.at(0).at(0) == "Test" || vIn.at(0).at(0) == "[")
+	if (right == NULL) { //if the right child did not have parenthesis, make a simple command/test_command
+	if (vIn.at(0).at(0) == "Test" || vIn.at(0).at(0) == "[")
 			return new Test_Command(vIn.at(0));
 		return new System_Call(vIn.at(0));
 	}
-	first = vIn.begin();
-	last = vIn.begin() + (i -1);
-	std::vector< std::vector<std::string> > subV2(first, last);
-	left = build(subV2);
-	if (vIn.at(i).at(0) == "&&")
+	first = vIn.begin(); //get the rest of the stuff on the left of the connector into the left child which will be
+	last = vIn.begin() + (i -1);		//properly constructed using recursive calls
+	std::vector< std::vector<std::string> > subV2(first, last); //create the subvector
+	left = build(subV2); //set subvector as left child
+	if (vIn.at(i).at(0) == "&&") //decide which connector to use with left and right
 		return new And_Connector(left, right);
 	if (vIn.at(i).at(0) == "||")
 		return new Or_Connector(left, right);

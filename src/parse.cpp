@@ -90,9 +90,9 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
        		token = strtok(NULL, delim);
         }
         free(strCopy);
-        vOut.push_back(v);
+        vOut.push_back(v); //store the only command in the vector
     }
-	if (!checkParenthesis(vOut)) { //sets flags for matching parenthesis
+	if (!checkParenthesis(vOut)) { //sets flags for matching parenthesis and set pair index with the right-most parenthesis
 		std::cout << "Error: Invalid Input" << std::endl;
 		vOut.clear();
 		return -1;
@@ -134,28 +134,28 @@ std::string Parse::trim(std::string str) {
 bool Parse::checkParenthesis(std::vector< std::vector<std::string> > &vOut) {
     std::stack<int> parenthesis; //for matching up parenthesis
     std::stack<int> brackets; //for matching up brackets
-	for (int i = 0; i < vOut.size(); ++i) { //work from right to left and store left parenth's match is in vector.at(1)
+	for (int i = 0; i < (int)  vOut.size(); ++i) { //work from right to left and store left parenth's match is in vector.at(1)
 		if (vOut.at(i).at(0) == "(") {
 			parenthesis.push(i);
 		}
-        if (vOut.at(i).at(0) == "[") {
+        if (vOut.at(i).at(0) == "[") { //store this to be popped by its mate
             brackets.push(i);
         }
-        if (vOut.at(i).at(0) == ")") {
+        if (vOut.at(i).at(0) == ")") {	//this is a found mate and will store the index of with the right-most parenth
 			if (parenthesis.size() == 0)
 				return false;
-			std::ostringstream ss;
+			std::ostringstream ss; //use string stream to convert from int index to string
 			ss << parenthesis.top();
 			vOut.at(i).push_back(ss.str());
             parenthesis.pop();
         }
-        if (vOut.at(i).at(0) == "]") {
-            if (brackets.size() == 0)
+        if (vOut.at(i).at(0) == "]") { //found a mate for brackets, do not store index
+            if (brackets.size() == 0) //since the tree is not affected by these
                 return false;
             brackets.pop();
         }
     }
-    if (parenthesis.size() > 0 || brackets.size() > 0)
+    if (parenthesis.size() > 0 || brackets.size() > 0) //if there are any parentheses left, it is invalid
         return false;
     else
         return true;

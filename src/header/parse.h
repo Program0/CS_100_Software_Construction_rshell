@@ -7,8 +7,8 @@
 #include <sstream>
 #include <vector>
 #include <stack>
-#include <map>
 #include <cstdlib>
+#include <string.h>
 
 class Parse {
     private:
