@@ -7,6 +7,7 @@
 // System libraries
 #include <string>
 #include <vector> 
+#include <cstring> // For dealing with c-strings
 #include <iostream> // For printing to command line
 #include <cstdlib> // Basic c functions
 #include <stdlib.h> // For MACRO use
