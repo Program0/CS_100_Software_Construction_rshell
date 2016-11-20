@@ -11,13 +11,12 @@
 
 // User Libraries
 #include "base.h" // Root - used to polymorphically and recursively call connector or command execute()
-#include "command.h"
-#include "system_call.h"
-#include "exit_command.h"
-#include "test_command.h"
-#include "and_connector.h"
-#include "or_connector.h"
-#include "semicolon_connector.h"
+#include "command.h" // Leaf - performs system calls
+#include "exit_command.h" // Leaf - performs exit command
+#include "and_connector.h" // Node - connects leaves using logical && connector
+#include "or_connector.h" // Node - connects leaves using logical || connector
+#include "semicolon_connector.h" // Node - connects leaves using ; connector
+
 
 class Tree {
 private:
@@ -52,8 +51,12 @@ public:
     // Assignment operator
     Tree& operator= (const Tree& tree);
 
-    // Builds the command tree based on parsed user input
+	// Builds the tree by calling the recursive build function
     void build(std::vector<std::vector<std::string> > vIn);
+
+	// Recursively builds the tree based on the Parsed commands vector vIn
+
+	Base* recursiveBuild(std::vector< std::vector<std::string> > vIn);
 
     // Returns whether the tree is empty
     bool isEmpty();

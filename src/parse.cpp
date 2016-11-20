@@ -22,80 +22,67 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 		return -1;
 	}
 	int j = input.size() - 1;
-	//check for leading/trailing connector syntax enp p rrors
+	//check for leading/trailing connector syntax errors
 	if (input.at(0) == '&' || input.at(0) == '|' || input.at(0) == ';' ||
 		input.at(j) == '&' || input.at(j) == '|' || input.at(j) == ';') {
-		std::cout << "Error: Invalid input" << std::endl; //DO WE WANT THIS HERE???
+		std::cout << "Error: Invalid input" << std::endl;
 		return -1;
 	}
-	//set up string tokenizer
-        /*
-        typedef boost::tokenizer<boost::char_separator<char> > tokenizer;
-	boost::char_separator<char> sep(" ");   //delimiter
-	*/
+	//syntax tests passed.
+	//set up string tokenizer delimiter
 	const char *delim = " ";
 	std::vector<std::string> tempV;
 	std::string tempS;
 	int firstCmd;
 	for (int i = 0; i < (int)input.size(); ++i) { //scan entire input
 		//only does work at the connectors
-		if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
+		if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';' || input.at(i) == '(' || input.at(i) == ')') {
 			firstCmd = i;
-			bool bad = badInput(input, i, input.at(i));
-			if (bad) return -1;   //checks for bad connector syntax
-
-			if (vOut.empty()) {     //if first connector, must make initial left-most command leaf
-				/*tokenizer firstTk(input.substr(0, firstCmd), sep);
-				*/
+			if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
+				bool bad = badInput(input, i, input.at(i));
+				if (bad) return -1;   //checks for bad connector syntax
+			}
+			if (vOut.empty() && i > 0) {     //if first connector, must make initial left-most command leaf
 				std::vector<std::string> u;
 				//fill the command vector with command and parameters
-				/*for (tokenizer::iterator itr = firstTk.begin(); itr != firstTk.end(); ++itr) {
-					u.push_back(*itr);
-				}*/
 				char *strCopy = strdup(input.substr(0, firstCmd).c_str());
 				char *token = strtok(strCopy, delim);
-       				while (token != NULL) {
-               				 u.push_back(std::string(token));
-               				 token = strtok(NULL, delim);
-       				}
-				free(strCopy); 
+				while (token != NULL) {
+					u.push_back(std::string(token));
+					token = strtok(NULL, delim);
+				}
+				free(strCopy);
 				vOut.push_back(u);
 			}
-
-            j = i;
-            while (j < ((int) input.size()) && input.at(j) != '&'      //find the end of the next command
-                   && input.at(j) != '|' && input.at(j) != ';') {
-                ++j;
-            }
-            /*tokenizer tokens(input.substr(i, (j - i)), sep);*/
-            std::vector<std::string> v;
-            /*for (tokenizer::iterator iter = tokens.begin(); iter != tokens.end(); ++iter) {
-                v.push_back(*iter);
-            }*/
-	    char *strCopy = strdup(input.substr(i, (j - i)).c_str());
-            char *token = strtok(strCopy, delim);
-            while (token != NULL) {
-                v.push_back(std::string(token));
-            	token = strtok(NULL, delim);
-            }
-            free(strCopy);
-            tempV.clear();
+            j = i + 1;
+			while (j < ((int)input.size()) && input.at(j) != '&'      //find the end of the next command
+				&& input.at(j) != '|' && input.at(j) != ';'
+				&& input.at(j) != '(' && input.at(j) != ')') {
+				++j;
+			}
+            tempV.clear(); //use temps to store current command
             tempS = "";
-            tempS += input.at(i - 1); //save connector char as tree flag
-	    if (input.at(i) != ';')
-	        tempS += input.at(i - 1); //double char flag if necessary
+            tempS += input.at(i); //save connector char as tree flag
+			if (input.at(i) == '&' || input.at(i) == '|')
+				tempS += input.at(i); //double char flag if && or ||
             tempV.push_back(tempS); //store flag into a vector<string>
-            vOut.push_back(tempV); //store vector of next command
-            vOut.push_back(v);
+            vOut.push_back(tempV); //store vector of connector flag
+			
+			if (j < ((int)input.size()) && j == (i + 1)) { //only when there is a next command, store it
+				std::vector<std::string> v; //vectorize the next command
+				char *strCopy = strdup(input.substr(i, (j - i)).c_str());
+				char *token = strtok(strCopy, delim);
+				while (token != NULL) {
+					v.push_back(std::string(token));
+					token = strtok(NULL, delim);
+				}
+				free(strCopy);
+				vOut.push_back(v); //store the command vector
+			}
         }
     }
     if (vOut.empty()) { //case: no connectors
-        //tokenizer firstTk(input.substr(0, input.size()), sep); // Does not work. What if we change the substring?
-        /*boost::tokenizer<>firstTk(input);// Works with more than one parameter*/
         std::vector<std::string> v;
-        /*for (boost::tokenizer<>::iterator itr = firstTk.begin(); itr != firstTk.end(); itr++) {
-            v.push_back(*itr);
-        }*/
 	char *strCopy = strdup(input.substr(0, input.size()).c_str());
         char *token = strtok(strCopy, delim);
         while (token != NULL) {
@@ -105,6 +92,11 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
         free(strCopy);
         vOut.push_back(v);
     }
+	if (!checkParenthesis(vOut)) { //sets flags for matching parenthesis
+		std::cout << "Error: Invalid Input" << std::endl;
+		vOut.clear();
+		return -1;
+	}
     return 0;
 }
 
@@ -139,20 +131,50 @@ std::string Parse::trim(std::string str) {
     return s.substr(i, (j - i));    
 }
 
-bool Parse::badInput(std::string str, int &i, char connector) {
-    if (i >= (int) input.size()) 
-	return true; //double check that the connect is not at the end of the string
-    int j = i + 1;
-    if (str.at(j) == '&' || str.at(j) == '|' || str.at(j) == ';') {
-        if (str.at(j) != connector)
-            return true; //bad input if there are different adjacent connectors
-        if (j < (int) input.size() && (str.at(j + 1) == '&' || str.at(j + 1) == '|' || str.at(j + 1) == ';'))
-            return true; //bad input if there is a third connectors
+bool Parse::checkParenthesis(std::vector< std::vector<std::string> > &vOut) {
+    std::stack<int> parenthesis; //for matching up parenthesis
+    std::stack<int> brackets; //for matching up brackets
+	for (int i = 0; i < vOut.size(); ++i) { //work from left to right and store right parenth's match is in vector.at(1)
+		if (vOut.at(i).at(0) == "(") {
+			parenthesis.push(i);
+		}
+        if (vOut.at(i).at(0) == "[") {
+            brackets.push(i);
+        }
+	    if (vOut.at(i).at(0) == ")") {
+			if (parenthesis.size() == 0)
+				return false;
+			if (parenthesis.top() == i - 1) { //if the parentheses are adjacent, remove the empty parentheses
+				//TODO: remove these elements from the vector of vectors
+			}
+			else {
+				std::ostringstream ss;
+				ss << parenthesis.top();
+				vOut.at(i).push_back(ss.str());
+				parenthesis.pop();
+			}
+        }
+        if (vOut.at(i).at(0) == "]") {
+            if (brackets.size() == 0)
+                return false;
+            brackets.pop();
+        }
     }
-    if (str.at(j) == connector) //set i to the beginning of the next command
-        i = j;
-    while (i < (int) input.size() && (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';')) {
-	++i;
-    }
+    if (parenthesis.size() > 0 || brackets.size() > 0)
+        return false;
+    else
+        return true;
+}
+
+bool Parse::badInput(std::string str, int &i, char connector) { //only for logical connectors, not parenthesis
+	int j = i + 1;
+	if (str.at(j) != connector)
+		return true; //bad input if there are different adjacent logical connector
+	
+	if (j < (int)input.size() && (str.at(j + 1) == '&' || str.at(j + 1) == '|' || str.at(j + 1) == ';'))
+		return true; //bad input if there is a third logical connector
+	
+	if (str.at(j) == connector) //set i to second contiguous connector if necessary
+		i = j;
     return false; //change to conditional return
 }
