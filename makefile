@@ -6,41 +6,44 @@
 CC=g++
 CC_FLAGS= -g -Wall -Werror -ansi -pedantic
 
+#make[1]: main.o all <- all
+
 #Folder structure
 BIN_DIR:=bin
 SRC_DIR:=src
 H_DIR:=src/header
 
-#Name of executable
-#EXEC:=rshell
-
 all:rshell
 
-VPATH = $(SRC_DIR) 
-
 H_FILES:=$(wildcard $(H_DIR)/*.h)
-DEPS:$(H_FILES)
+DEPS:$(wildcard $(BIN_DIR)/*.d)
 
 
 CPP_FILES:=$(wildcard $(SRC_DIR)/*.cpp)
 
-OBJECTS := $(patsubst $(SRC_DIR)/%.cpp, $(BIN_DIR)/%.o,$(CPP_FILES))
+OBJECTS := $(CPP_FILES:$(SRC_DIR)/%.cpp=$(BIN_DIR)/%.o)
 
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp $(H_DIR)/%.h
 	mkdir -p $(BIN_DIR)
 	$(CC) -I$(H_DIR) -o $@ -c $< $(CC_FLAGS)
 
-$(BIN_DIR)/main.o:$(SRC_DIR)/main.cpp $(OBJECTS) $(DEPS)
+$(BIN_DIR)/main.o:$(SRC_DIR)/main.cpp $(H_FILES)
 	$(CC) -I$(H_DIR) -o $@ -c $(SRC_DIR)/main.cpp $(CC_FLAGS)
 
 rshell: $(OBJECTS)
 	$(CC) -o $(BIN_DIR)/$@ $(OBJECTS) $(CC_FLAGS)
 
-#.PHONY: test
-#test:
-#	echo $(H_FILES)
+include $(DEPS)
+
+$(MAKEFILE_LIST): ;
+%:: %,v
+%:: RCS/%,v
+%:: RCS/%
+%:: s.%
+%:: SCCS/s.%
 
 .PHONY: clean
 
 clean:
 	rm -rf $(BIN_DIR)
+	
