@@ -91,7 +91,7 @@ void Tree::build(std::vector< std::vector<std::string> > vIn) {
 
 // Empty the tree
 void Tree::clear(){
-  if (root != NULL) {
+  if (root) {
         delete root;
         root = NULL; // Point it to NULL so we don't get garbage accessing it later
         this->commands.clear(); // We clear all commands

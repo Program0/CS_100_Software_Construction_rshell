@@ -5,8 +5,7 @@
 #define COMMAND_H
 
 // System libraries
-#include <string>
-#include <vector> 
+#include <iostream>
 #include <cstring> // For dealing with c-strings
 #include <iostream> // For printing to command line
 #include <cstdlib> // Basic c functions
@@ -19,9 +18,6 @@
 #include <errno.h> // For outputting error after system call
 #include <fcntl.h> // For testing a pipe between child and parent process
 #include <sysexits.h> // For testing exit status of process
-#include <sys/stat.h> // For the stat function
-#include <time.h>
-#include <limits.h> // For the realpath() function and PATHMAX macro
 
 // User libraries
 #include "base.h"
@@ -44,12 +40,22 @@ public:
     Command(std::vector<std::string> input);
     
     // Destructor
-    ~Command();
+    virtual ~Command();
     
-    void print();
+    // Overridden functions. Derived classes do
+    // not have to implement these.
+    virtual Base * get_left();
+    virtual Base * get_right();
+    virtual void set_left(Base * left);
+    virtual void set_right(Base * right);
+    virtual void print();    
+    virtual bool isLeaf();
+    virtual std::string to_string();
+    virtual std::vector<std::string> to_vector();
 
-    // Overrides Base execute function
-    int execute() = 0;
+    // Overrides Base execute function. Derived classes need
+    // to implement this.
+    virtual int execute() = 0;
 };
 
 #endif //COMMAND_H

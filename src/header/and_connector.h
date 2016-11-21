@@ -18,11 +18,23 @@ class And_Connector : public Connector_B {
 
 public:
     
+    // Default constructor
+    And_Connector() : Connector_B(){};
+    
     // Main constructor
     And_Connector(Base* left, Base* right);
     
     // Destructor
     virtual ~And_Connector();
+    
+    // Prints the contents to the command line.
+    void print();
+    
+   // Returns its contents as a string
+    std::string to_string();
+    
+    // Returns its contents as a vector
+    std::vector<std::string> to_vector();
 
     /* 
     *  Overriden execute. Returns 0 if both commands

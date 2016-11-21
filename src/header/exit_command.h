@@ -28,8 +28,17 @@ public:
     // Main constructor
     Exit_Command(std::vector<std::string> input);
     
+    // Copy constructor
+    Exit_Command(const Exit_Command & obj);
+    
+    // Destructor
+    virtual ~Exit_Command();
+    
+    // Assignment operator
+    Exit_Command & operator=(const Exit_Command & obj);        
+    
     // Always returns -1 as flag to exit the rshell
-    int execute();
+    virtual int execute();
 };
 
 #endif // EXIT_COMMAND_H

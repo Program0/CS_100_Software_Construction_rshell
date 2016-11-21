@@ -14,6 +14,23 @@ Or_Connector::~Or_Connector(){
 
 }
 
+// Only print the connector. Let the leaves do their own printing.
+void Or_Connector::print(){
+    std::cout << "||" << std::endl;
+}
+
+std::string Or_Connector::to_string(){
+    std::string temp("&&");
+    return temp;
+}
+
+std::vector<std::string> Or_Connector::to_vector(){
+    std::string temp("&&");
+    std::vector<std::string> v;
+    v.push_back(temp);
+    return v;
+}
+
 // We assume by default that if a command executes it returns 0 and
 // if it fails it returns something greater than 0. If an exit command 
 // was executed a return value of -1 is received. If both commands 

@@ -11,8 +11,19 @@
 class System_Call : public Command {
 public:
 
+    // Default constructor
+    System_Call() : Command(){};
+    
     // Main constructor
     System_Call(std::vector<std::string> input);
+    
+    // Copy constructor
+    System_Call(const System_Call &obj);
+    
+    // Assignment operator
+    System_Call & operator=(const System_Call &obj);
+    
+    virtual ~System_Call();
 
     /*
     *  Makes system calls by forking and calling execvp 

@@ -26,7 +26,7 @@ Command::Command(std::vector<std::string> input){
 
 // Destructor
 Command::~Command(){
-    if (cmd != NULL){
+    if (cmd){
         // Delete the children first
         //for (int i = 0; cmd[i] != NULL; i++) {
             //delete cmd[i];
@@ -36,6 +36,54 @@ Command::~Command(){
     }
 }
 
-void Command::print(){
+// We are a leaf. We have no children.
+Base * Command::get_left(){
+    return NULL;
+}
 
+// We are a leaf. We have no children.
+Base * Command::get_right(){
+    return NULL;
+}
+
+// Since we have no children we do nothing
+void Command::set_left(Base* left){
+    
+}
+
+// Since we have no children we do nothing
+void Command::set_right(Base* right){
+    
+}
+
+// Always returns true. We are a leaf.
+bool Command::isLeaf(){
+    return true;
+}
+
+// Returns the contents of cmd
+std::string Command::to_string(){
+    std::string temp;
+    for (unsigned int i = 0 ; cmd[i] != NULL; i++){
+        temp += std::string(cmd[i]) + " ";
+    }
+    return temp;
+}
+
+// Returns a vector of the contents
+std::vector<std::string> Command::to_vector(){
+    std::vector<std::string> v;
+    for (unsigned int i = 0 ; cmd[i] != NULL; i++){
+        std::string temp(std::string(cmd[i]));
+        v.push_back(temp);
+    }
+    return v;
+}
+
+// We print out our data.
+void Command::print(){
+    for (unsigned int i = 0; cmd[i] != NULL; i++){
+        std::cout << cmd[i] << " ";
+    }
+    std::cout << std::endl;
 }

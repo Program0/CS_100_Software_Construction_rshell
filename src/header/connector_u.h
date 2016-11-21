@@ -11,6 +11,7 @@
 #define CONNECTOR_U_H
 
 // System Libraries
+#include <iostream> // For printing to command line
 #include <cstddef> // For NULL
 
 // User Libraries
@@ -21,21 +22,45 @@ class Connector_U : public Base {
 protected:
     Base *child;
 
-public:
+public:    
+    // Default constructor
+    Connector_U() : child(NULL){};
+    
     // Main constructor
-    Connector_U(Base *childCommand);
+    Connector_U(Base *command) : child(command){};
 
     // Destructor
    virtual ~Connector_U();
    
-    // Accesors functions
-    Base * get_left();
-    Base * get_right();
+    // Overridden functions. Child classes do 
+    // not need to implement these.
     
-    void print();
+    /* Accesor functions */
+    virtual Base * get_left();
+    virtual Base * get_right();
+    virtual bool isLeaf();
     
-    // Overrides Base's execute function
-    int execute() = 0;
+    /* Mutator functions */
+    
+    // Sets the left child
+    virtual void set_left(Base * left);    
+    // Sets the right child
+    virtual void set_right(Base * right);
+
+
+    // Derived classes need to implement these functions.   
+    
+    /* Accesor functions */
+    // Returns its contents as a string
+    virtual std::string to_string() = 0;
+    
+    // Returns its contents as a vector
+    virtual std::vector<std::string> to_vector() = 0;
+
+    /* Mutator functions */
+    // Executes the commands stored in the left and right.
+    virtual int execute() = 0;
+    
 };
 
 #endif // CONNECTOR_U_H

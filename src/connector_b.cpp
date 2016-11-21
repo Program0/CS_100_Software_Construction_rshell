@@ -13,11 +13,11 @@ Connector_B::Connector_B(Base *left, Base *right)
 // Virtual destructor calls the Base class destructor 
 // after Connector_B class destructor is called
 Connector_B::~Connector_B() {
-    if (leftChild != NULL) {
+    if (leftChild) {
         delete leftChild;
         leftChild = NULL;
     }
-    if (rightChild != NULL) {
+    if (rightChild) {
         delete rightChild;
         rightChild = NULL;
     }
@@ -33,12 +33,17 @@ Base * Connector_B::get_right(){
     return rightChild;
 }
 
-// Stub
-void Connector_B::print(){
-
+// Sets the left child
+void Connector_B::set_left(Base* left){
+    leftChild = left;
 }
 
-// Overriden execute()
-int Connector_B::execute(){
-    return 0;
+// Sets the right child
+void Connector_B::set_right(Base* right){
+    rightChild = right;
+}
+
+// Always returns false. This is a connector.
+bool Connector_B::isLeaf(){
+    return false;
 }

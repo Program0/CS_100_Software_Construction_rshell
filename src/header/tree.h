@@ -11,7 +11,7 @@
 
 // User Libraries
 #include "base.h" // Root - used to polymorphically and recursively call connector or command execute()
-#include "command.h"
+#include "Command_Tree.h" // For creating subtrees when there are parenthesis
 #include "system_call.h"
 #include "exit_command.h"
 #include "test_command.h"
@@ -61,7 +61,7 @@ public:
     // Clears the tree of all system calls
     void clear();
 
-    // Executes the stored system calls
+    // Executes the stored command calls
     int execute();
 
 };

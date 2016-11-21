@@ -23,6 +23,15 @@ public:
     // Destructor
     virtual ~Or_Connector();
     
+    // Prints the contents to the command line.
+    void print();
+    
+   // Returns its contents as a string
+    std::string to_string();
+    
+    // Returns its contents as a vector
+    std::vector<std::string> to_vector();
+    
     /* 
     *  Overrides Base execute. Returns a value > 0 if both commands
     *  unsuccessfuly executed, returns -1 if an exit command
@@ -30,8 +39,8 @@ public:
     *  successfully. If return value is > 0 then value is the  
     *  pid number of the right child execute() function.
     */
-
     int execute();
+    
 };
 
 #endif // OR_CONNECTOR_H
