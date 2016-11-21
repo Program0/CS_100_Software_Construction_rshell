@@ -11,10 +11,8 @@
 
 // User Libraries
 #include "base.h" // Root - used to polymorphically and recursively call connector or command execute()
-#include "Command_Tree.h" // For creating subtrees when there are parenthesis
-#include "system_call.h"
-#include "exit_command.h"
-#include "test_command.h"
+#include "command_tree.h" // For creating subtrees when there are parenthesis
+#include "command.h" // For commands
 #include "and_connector.h"
 #include "or_connector.h"
 #include "semicolon_connector.h"

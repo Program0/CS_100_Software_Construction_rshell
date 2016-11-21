@@ -51,29 +51,17 @@ bool Tree::isEmpty() {
 void Tree::build(std::vector< std::vector<std::string> > vIn) {
     this->commands = vIn;   
     if ((vIn.size() % 2) != 0) {
-        if (vIn.at(0).at(0) == "exit") {
-            root = new Exit_Command();
-        }
-        else if (vIn.at(0).at(0) == "test"){
-            root = new Test_Command(vIn.at(0));
-            }
-        else {
-            root = new System_Call(vIn.at(0));
-        }
+        // We create the first command
+        root = new Command(vIn.at(0));        
+        
         if (vIn.size() > 1) {
             int i = 1;
             Base* command;
-            while (i < (((int) vIn.size()) - 1)) {
-                if (vIn.at(i + 1).at(0) == "exit") {
-                    command = new Exit_Command();
-                }              
-                else if (vIn.at(i + 1).at(0) == "test"){
-                    command = new Test_Command(vIn.at(i + 1));
-                }
-                else {
-                    command = new System_Call(vIn.at(i + 1));
-                }
-    
+            while (i < (((int) vIn.size()) - 1)) { 
+                // The next command is always after the connector
+                command = new Command(vIn.at(i + 1));
+                
+                // Now we create the connectors
                 if (vIn.at(i).at(0) == "&&") {
                     root = new And_Connector(root, command);
                 }

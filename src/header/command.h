@@ -18,6 +18,11 @@
 #include <errno.h> // For outputting error after system call
 #include <fcntl.h> // For testing a pipe between child and parent process
 #include <sysexits.h> // For testing exit status of process
+#include <sys/stat.h> // For the stat function used in test commands
+#include <time.h>
+#include <limits.h> // For the realpath() function and PATHMAX macro
+#include <dirent.h> // For getting a directory stream
+
 
 // User libraries
 #include "base.h"
@@ -25,37 +30,46 @@
 // Stores commands in null terminated array. The command to execute is 
 // stored at index 0 and the parameters are stored subsequent elements 
 // of the array. 
+
 class Command : public Base {
-protected:
+private:
+    // Member variables
     // Stores command file at index 0, flags at index 1,
-    // and parameters are stored in subsequent indeces
-    char **cmd; // Null terminated array
+    // and parameters are stored in subsequent indeces   
+    char ** cmd; // Null terminated array
+    pid_t pid; // Process ID of the command
+    int exit_status; // Stores the errno of the command after execution
+    
+    
+    // Utility functions for use with execute. Note, this will
+    // grow as we add built-in commands.
+    int exit_command();
+    int test_command();
+    int system_call();
+
 
 public:
 
-    // Default constructor
-    Command();
-
     // Main constructor
     Command(std::vector<std::string> input);
-    
+
     // Destructor
     virtual ~Command();
-    
+
     // Overridden functions. Derived classes do
     // not have to implement these.
     virtual Base * get_left();
     virtual Base * get_right();
     virtual void set_left(Base * left);
     virtual void set_right(Base * right);
-    virtual void print();    
+    virtual void print();
     virtual bool isLeaf();
     virtual std::string to_string();
     virtual std::vector<std::string> to_vector();
 
     // Overrides Base execute function. Derived classes need
     // to implement this.
-    virtual int execute() = 0;
+    virtual int execute();
 };
 
 #endif //COMMAND_H
