@@ -12,9 +12,9 @@ int Test_Command::execute() {
 
     //size_t size = PATH_MAX + 1;
     int status; // Return value after execution
-    //std::cout << "In test command path: " << cmd[2] << std::endl;
-    char *buffer1 = new char[PATH_MAX+1]; /* not sure about the "+ 1" */
-    //char *buffer2 = new char[PATH_MAX+1]; /* not sure about the "+ 1" */
+    /*/std::cout << "In test command path: " << cmd[2] << std::endl;
+    char *buffer1 = new char[PATH_MAX+1]; * not sure about the "+ 1" 
+    //char *buffer2 = new char[PATH_MAX+1];  not sure about the "+ 1"
     std::string temp("../");
     temp+= std::string(cmd[2]);
 
@@ -24,9 +24,9 @@ int Test_Command::execute() {
     if (resolvedPath) {
             //std::cout << "Path: " << resolvedPath << std::endl;
     } else {
-        perror("Error");
+       perror("Error");
     }
- 
+ */
     struct stat sb;
         
         // We test whether this is a file, directory or otherwise
@@ -47,10 +47,11 @@ int Test_Command::execute() {
                 status = 0;
             }
             else {
+		perror("Error");
                 status = 1;
             }
         } 
-    delete buffer1;
+    //delete buffer1;
     //delete buffer2;    
     // We output the success of the test function
     if (status == 0){
