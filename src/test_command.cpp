@@ -12,7 +12,7 @@ int Test_Command::execute() {
 
     //size_t size = PATH_MAX + 1;
     int status; // Return value after execution
-    std::cout << "In test command path: " << cmd[2] << std::endl;
+    //std::cout << "In test command path: " << cmd[2] << std::endl;
     char *buffer1 = new char[PATH_MAX+1]; /* not sure about the "+ 1" */
     //char *buffer2 = new char[PATH_MAX+1]; /* not sure about the "+ 1" */
     std::string temp("../");
@@ -22,7 +22,7 @@ int Test_Command::execute() {
     std::cout << "Path: " << temp.c_str() << std::endl;
     //char *currentDir = getcwd(buffer2, size);
     if (resolvedPath) {
-            std::cout << "Path: " << resolvedPath << std::endl;
+            //std::cout << "Path: " << resolvedPath << std::endl;
     } else {
         perror("Error");
     }
