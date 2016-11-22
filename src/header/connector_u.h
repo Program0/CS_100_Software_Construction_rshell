@@ -32,6 +32,9 @@ public:
     
     // Overrides Base's execute function
     int execute() = 0;
+
+    //returns whether the current node is a leaf
+    bool isLeaf();
 };
 
 #endif // CONNECTOR_U_H

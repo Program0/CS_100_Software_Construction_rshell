@@ -18,6 +18,9 @@ class Base {
     
     // Executes a command returns the success status as an int
     virtual int execute() = 0;
+
+    //returns whether it is a leaf or not
+    virtual bool isLeaf() = 0;
 };
 
 #endif // BASE_H

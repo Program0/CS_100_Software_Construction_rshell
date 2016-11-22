@@ -43,3 +43,7 @@ int Connector_B::execute(){
     return 0;
 }
 
+bool Connector_B::isLeaf() {
+    return false;
+}
+

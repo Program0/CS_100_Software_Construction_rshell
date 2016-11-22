@@ -40,4 +40,8 @@ int Connector_U::execute(){
     return 0;
 }
 
+bool Connector_U::isLeaf() {
+    return false;
+}
+
 

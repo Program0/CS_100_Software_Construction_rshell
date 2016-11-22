@@ -50,6 +50,8 @@ public:
 
     // Overrides Base execute function
     int execute() = 0;
+
+    bool isLeaf();
 };
 
 #endif //COMMAND_H

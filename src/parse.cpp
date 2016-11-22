@@ -33,19 +33,20 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 	const char *delim = " ";
 	std::vector<std::string> tempV;
 	std::string tempS;
-	int firstCmd;
+	int firstCmdEnd;
+	bool firstCmdFlag = false;
 	for (int i = 0; i < (int)input.size(); ++i) { //scan entire input
 		//only does work at the connectors
 		if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';' || input.at(i) == '(' || input.at(i) == ')') {
-			firstCmd = i;
+			firstCmdEnd = i;
 			if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
 				bool bad = badInput(input, i, input.at(i));
 				if (bad) return -1;   //checks for bad connector syntax
 			}
-			if (vOut.empty() && i > 0) {     //if first connector, must make initial left-most command leaf
+			if (!firstCmdFlag && i > 0) {     //if first connector, must make initial left-most command leaf
 				std::vector<std::string> u;
 				//fill the command vector with command and parameters
-				char *strCopy = strdup(input.substr(0, firstCmd).c_str());
+				char *strCopy = strdup(input.substr(0, firstCmdEnd).c_str());
 				char *token = strtok(strCopy, delim);
 				while (token != NULL) {
 					u.push_back(std::string(token));
@@ -53,8 +54,9 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 				}
 				free(strCopy);
 				vOut.push_back(u);
+				firstCmdFlag = true; //mark that the right-most command was already input
 			}
-            j = i + 1;
+            		j = i + 1;
 			while (j < ((int)input.size()) && input.at(j) != '&'      //find the end of the next command
 				&& input.at(j) != '|' && input.at(j) != ';'
 				&& input.at(j) != '(' && input.at(j) != ')') {
@@ -68,17 +70,17 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
             tempV.push_back(tempS); //store flag into a vector<string>
             vOut.push_back(tempV); //store vector of connector flag
 			
-			if (j < ((int)input.size()) && j == (i + 1)) { //only when there is a next command, store it
-				std::vector<std::string> v; //vectorize the next command
-				char *strCopy = strdup(input.substr(i, (j - i)).c_str());
-				char *token = strtok(strCopy, delim);
-				while (token != NULL) {
-					v.push_back(std::string(token));
-					token = strtok(NULL, delim);
-				}
-				free(strCopy);
-				vOut.push_back(v); //store the command vector
-			}
+	    if (j > (i + 1) && trim(input.substr(i + 1, (j - i - 1))).size() > 0) { //only when there is a next command, store it
+		std::vector<std::string> v; //vectorize the next command
+		char *strCopy = strdup(input.substr((i + 1), (j - i - 1)).c_str());
+		char *token = strtok(strCopy, delim);
+		while (token != NULL) {
+			v.push_back(std::string(token));
+			token = strtok(NULL, delim);
+		}
+		free(strCopy);
+		vOut.push_back(v); //store the command vector
+		}
         }
     }
     if (vOut.empty()) { //case: no connectors
@@ -134,14 +136,22 @@ std::string Parse::trim(std::string str) {
 bool Parse::checkParenthesis(std::vector< std::vector<std::string> > &vOut) {
     std::stack<int> parenthesis; //for matching up parenthesis
     std::stack<int> brackets; //for matching up brackets
-	for (int i = 0; i < vOut.size(); ++i) { //work from left to right and store right parenth's match is in vector.at(1)
+	for (int i = 0; i < (int) vOut.size(); ++i) { //work from left to right and store right parenth's match is in vector.at(1)
 		if (vOut.at(i).at(0) == "(") {
 			parenthesis.push(i);
 		}
         if (vOut.at(i).at(0) == "[") {
-            brackets.push(i);
+	    for (int j = 0; j < (int) vOut.at(i).size(); ++j) { //check the whole command vector for bracket pairs
+		if (vOut.at(i).at(j) == "[")
+		    brackets.push(0); //insignificant placeholder flag
+		if (vOut.at(i).at(j) == "]") {
+                    if (brackets.size() == 0)
+                        return false;
+                        brackets.pop();
+                    }
+	        }
         }
-	    if (vOut.at(i).at(0) == ")") {
+	if (vOut.at(i).at(0) == ")") {
 			if (parenthesis.size() == 0)
 				return false;
 			if (parenthesis.top() == i - 1) { //if the parentheses are adjacent, remove the empty parentheses
@@ -154,11 +164,6 @@ bool Parse::checkParenthesis(std::vector< std::vector<std::string> > &vOut) {
 				parenthesis.pop();
 			}
         }
-        if (vOut.at(i).at(0) == "]") {
-            if (brackets.size() == 0)
-                return false;
-            brackets.pop();
-        }
     }
     if (parenthesis.size() > 0 || brackets.size() > 0)
         return false;
@@ -168,7 +173,7 @@ bool Parse::checkParenthesis(std::vector< std::vector<std::string> > &vOut) {
 
 bool Parse::badInput(std::string str, int &i, char connector) { //only for logical connectors, not parenthesis
 	int j = i + 1;
-	if (str.at(j) != connector)
+	if ((str.at(j) == '&' || str.at(j) == '|' || str.at(j) == ';') && str.at(j) != connector)
 		return true; //bad input if there are different adjacent logical connector
 	
 	if (j < (int)input.size() && (str.at(j + 1) == '&' || str.at(j + 1) == '|' || str.at(j + 1) == ';'))

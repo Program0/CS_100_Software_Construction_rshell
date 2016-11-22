@@ -35,6 +35,9 @@ public:
 
     // Executes the commands stored in the left and right child
     int execute() = 0;
+
+    //returns whether this is a leaf
+    bool isLeaf();
 };
 
 #endif // CONNECTOR_B_H

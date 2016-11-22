@@ -36,6 +36,10 @@ Command::~Command(){
     }
 }
 
+bool Command::isLeaf() {
+    return true;
+}
+
 void Command::print(){
 
 }

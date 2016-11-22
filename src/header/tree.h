@@ -7,6 +7,7 @@
 // System libraries
 #include <vector>
 #include <string>
+#include <sstream>
 #include <cstdlib>
 
 // User Libraries
@@ -16,7 +17,8 @@
 #include "and_connector.h" // Node - connects leaves using logical && connector
 #include "or_connector.h" // Node - connects leaves using logical || connector
 #include "semicolon_connector.h" // Node - connects leaves using ; connector
-
+#include "test_command.h"
+#include "system_call.h"
 
 class Tree {
 private:
@@ -54,9 +56,8 @@ public:
 	// Builds the tree by calling the recursive build function
     void build(std::vector<std::vector<std::string> > vIn);
 
-	// Recursively builds the tree based on the Parsed commands vector vIn
-
-	Base* recursiveBuild(std::vector< std::vector<std::string> > vIn);
+    // Recursively builds the tree based on the Parsed commands vector vIn
+    Base* recursiveBuild(std::vector< std::vector<std::string> > vIn);
 
     // Returns whether the tree is empty
     bool isEmpty();
