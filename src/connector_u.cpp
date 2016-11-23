@@ -1,5 +1,5 @@
-//Marlo Zeroth mzero001@ucr.edu 861309346
-////Emmilio Segovia esego001@ucr.edu 861305177
+// Marlo Zeroth mzero001@ucr.edu 861309346
+// Emmilio Segovia esego001@ucr.edu 861305177
 
 /*
 *  For future implementation of unary connectors
@@ -39,3 +39,4 @@ void Connector_U::set_right(Base* right){
 bool Connector_U::isLeaf(){
     return false;
 }
+

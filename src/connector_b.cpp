@@ -47,3 +47,4 @@ void Connector_B::set_right(Base* right){
 bool Connector_B::isLeaf(){
     return false;
 }
+

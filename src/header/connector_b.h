@@ -49,7 +49,6 @@ public:
     // Sets the right child
     virtual void set_right(Base * right);
 
-
     // Derived classes need to implement these functions.   
     
     /* Accesor functions */

@@ -1,5 +1,6 @@
-//Marlo Zeroth mzero001@ucr.edu 861309346
-////Emmilio Segovia esego001@ucr.edu 861305177
+// Marlo Zeroth mzero001@ucr.edu 861309346
+// Emmilio Segovia esego001@ucr.edu 861305177
+
 #ifndef PARSE
 #define PARSE
 #include <iostream>
@@ -9,6 +10,8 @@
 #include <stack>
 #include <cstdlib>
 #include <string.h>
+#include <sstream>
+#include <map>
 
 class Parse {
     private:
@@ -22,4 +25,6 @@ class Parse {
 		bool checkParenthesis(std::vector< std::vector<std::string> > &vOut);
         bool badInput(std::string str, int &i, char connector);
 };
+
 #endif
+

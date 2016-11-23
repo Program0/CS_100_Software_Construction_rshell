@@ -60,7 +60,8 @@ public:
     /* Mutator functions */
     // Executes the commands stored in the left and right.
     virtual int execute() = 0;
-    
+     
 };
 
 #endif // CONNECTOR_U_H
+

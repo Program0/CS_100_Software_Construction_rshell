@@ -1,8 +1,6 @@
 //Marlo Zeroth mzero001@ucr.edu 861309346
 //Emmilio Segovia esego001@ucr.edu 861305177
 
-#include <vector>
-
 #include "and_connector.h"
 
 // Main constructor. Initialize with parent constructor.
@@ -70,3 +68,4 @@ int And_Connector::execute() {
     else
         return right;
 }
+

@@ -19,8 +19,7 @@ Command::Command(std::vector<std::string> input) {
 
         // Iterate through the vector and copy the strings 
         for (unsigned int i = 0; i < input.size(); i++) {
-            cmd[i] = (char*) input.at(i).c_str(); // Ugly but need to cast
-            cmd[i] = new char[input.at(i).size() + 1];
+            cmd[i] = new char [input.at(i).size() + 1];
             std::strncpy(cmd[i], input.at(i).c_str(), input.at(i).size() + 1);
         }
         cmd[input.size()] = NULL;

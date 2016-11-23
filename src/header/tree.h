@@ -7,12 +7,13 @@
 // System libraries
 #include <vector>
 #include <string>
+#include <sstream>
 #include <cstdlib>
 
 // User Libraries
 #include "base.h" // Root - used to polymorphically and recursively call connector or command execute()
 #include "command_tree.h" // For creating subtrees when there are parenthesis
-#include "command.h" // For commands
+#include "command.h" // Leaf - performs commands
 #include "and_connector.h"
 #include "or_connector.h"
 #include "semicolon_connector.h"
@@ -50,8 +51,11 @@ public:
     // Assignment operator
     Tree& operator= (const Tree& tree);
 
-    // Builds the command tree based on parsed user input
+	// Builds the tree by calling the recursive build function
     void build(std::vector<std::vector<std::string> > vIn);
+
+    // Recursively builds the tree based on the Parsed commands vector vIn
+    Base* recursiveBuild(std::vector< std::vector<std::string> > vIn);
 
     // Returns whether the tree is empty
     bool isEmpty();

@@ -46,7 +46,7 @@ class Base {
     
     // Executes a command returns the success status as an int
     virtual int execute() = 0;
-    
 };
 
 #endif // BASE_H
+
