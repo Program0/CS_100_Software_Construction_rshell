@@ -6,18 +6,26 @@
 // Main constructor
 
 Command::Command(std::vector<std::string> input) {
-    // We prepare an array of cstrings to pass to execvp
-    // Plus an extra for the null terminated string
-    cmd = new char* [input.size() + 1];
 
-    // Iterate through the vector and copy the strings 
-    for (unsigned int i = 0; i < input.size(); i++) {
-        cmd[i] = (char*) input.at(i).c_str(); // Ugly but need to cast
-        cmd[i] = new char[input.at(i).size() + 1];
-        std::strncpy(cmd[i], input.at(i).c_str(), input.at(i).size() + 1);
+    // We only process if the input is valid
+    if (input.empty()) {
+        throw std::invalid_argument("Invalid argument. Empty vector parameter.");
+    } else if (input.at(0) == "[" && input.at(input.size() - 1) != "]") {
+        throw std::invalid_argument("Invalid argument. No closing ].");
+    } else {
+        // We prepare an array of cstrings to pass to execvp
+        // Plus an extra for the null terminated string
+        cmd = new char* [input.size() + 1];
+        size = input.size();
+
+        // Iterate through the vector and copy the strings 
+        for (unsigned int i = 0; i < input.size(); i++) {
+            cmd[i] = (char*) input.at(i).c_str(); // Ugly but need to cast
+            cmd[i] = new char[input.at(i).size() + 1];
+            std::strncpy(cmd[i], input.at(i).c_str(), input.at(i).size() + 1);
+        }
+        cmd[input.size()] = NULL;
     }
-    cmd[input.size()] = NULL;
-
 }
 
 // Destructor
@@ -109,7 +117,7 @@ int Command::execute() {
     // Find which command to execute
     if (!std::strcmp(cmd[0], "exit")) {
         returnValue = exit_command();
-    } else if (!std::strcmp(cmd[0], "test")) {
+    } else if (!std::strcmp(cmd[0], "test") || !std::strcmp(cmd[0], "[")) {
         returnValue = test_command();
     } else {
         returnValue = system_call();
@@ -167,10 +175,9 @@ int Command::system_call() {
         if ((status = execvp(cmd[0], cmd)) == -1) {
             // Now we write the error number result to the pipe
             write(exec_pipe[1], &errno, sizeof (int));
-            std::string temp("No Command '");
-            std::string c(cmd[0]);
-            std::string f("' found");
-            temp += c + f;
+            std::string temp(cmd[0]);
+            std::string s(": command not found");
+            temp += s;
             perror(temp.c_str());
         }
 
@@ -203,44 +210,63 @@ int Command::system_call() {
 
 int Command::test_command() {
     //size_t size = PATH_MAX + 1;
-    int status; // Return value after execution
-    std::cout << "In test command path: " << cmd[2] << std::endl;
-    char *buffer1 = new char[PATH_MAX + 1]; /* not sure about the "+ 1" */
+    int status; // Return value after execution    
+    //char *buffer1 = new char[PATH_MAX + 1]; /* not sure about the "+ 1" */
     //char *buffer2 = new char[PATH_MAX+1]; /* not sure about the "+ 1" */
-    std::string temp("../");
-    temp += std::string(cmd[2]);
+    //std::string temp("../");
+    //temp += std::string(cmd[2]);
 
-    char *resolvedPath = realpath(temp.c_str(), buffer1);
+    //char *resolvedPath = realpath(cmd[2], buffer1);
 
     //char *currentDir = getcwd(buffer2, size);
-    if (resolvedPath) {
+    //if (resolvedPath) {
 
-    } else {
-        perror("Error");
-    }
 
+   // } else {
+        //perror("Error");
+    //}
+
+    // We test whether we are dealing with     
     struct stat sb;
 
-    // We test whether this is a file, directory or otherwise
-    if (stat(cmd[2], &sb) == -1) {
-        status = 1;
-        //perror("stat"); // Outputs an error to the command line
-    } else {
-        // If it is either a directory or file
-        if ((!std::strcmp(cmd[1], "-e")) && ((S_ISREG(sb.st_mode) == 1)
-                || (S_ISDIR(sb.st_mode) == 1))) {
-            status = 0;
-        }// If it is a file only
-        else if (!std::strcmp(cmd[1], "-f") && S_ISREG(sb.st_mode) == 1) {
-            status = 0;
-        }// If it is a directory only
-        else if (!std::strcmp(cmd[1], "-d") && S_ISDIR(sb.st_mode) == 1) {
-            status = 0;
-        } else {
+    // We check how the test command was passed. Either it there were flags or no flags.
+    if (!std::strcmp(cmd[1], "-e") || !std::strcmp(cmd[1], "-d") 
+            || !std::strcmp(cmd[1], "-f")) {
+        // We test whether this is a file, directory or otherwise
+        if (stat(cmd[2], &sb) == -1) {
             status = 1;
+            //perror("stat"); // Outputs an error to the command line
+        } else {
+            // If it is either a directory or file
+            if ((!std::strcmp(cmd[1], "-e")) && ((S_ISREG(sb.st_mode) == 1)
+                    || (S_ISDIR(sb.st_mode) == 1))) {
+                status = 0;
+            }                // If it is a file only
+            else if (!std::strcmp(cmd[1], "-f") && S_ISREG(sb.st_mode) == 1) {
+                status = 0;
+            }// If it is a directory only
+            else if (!std::strcmp(cmd[1], "-d") && S_ISDIR(sb.st_mode) == 1) {
+                status = 0;
+            } else {
+                status = 1;
+            }
+        }
+    } else {
+        // We test whether this is a file, directory or otherwise
+        if (stat(cmd[1], &sb) == -1) {
+            status = 1;
+            //perror("stat"); // Outputs an error to the command line
+        } else {
+            // If it is either a directory or file we return true
+            if (((S_ISREG(sb.st_mode) == 1) || (S_ISDIR(sb.st_mode) == 1))) {
+                status = 0;
+            } else {
+                status = 1;
+            }
         }
     }
-    delete buffer1;
+
+    //delete buffer1;
     //delete buffer2;    
     // We output the success of the test function
     if (status == 0) {

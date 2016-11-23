@@ -5,7 +5,8 @@
 #define COMMAND_H
 
 // System libraries
-#include <iostream>
+#include <stdexcept>
+#include <iostream> // For printing to the command line
 #include <cstring> // For dealing with c-strings
 #include <iostream> // For printing to command line
 #include <cstdlib> // Basic c functions
@@ -33,20 +34,24 @@
 
 class Command : public Base {
 private:
-    // Member variables
+    /* Member variables */ 
+    
     // Stores command file at index 0, flags at index 1,
-    // and parameters are stored in subsequent indeces   
-    char ** cmd; // Null terminated array
-    pid_t pid; // Process ID of the command
-    int exit_status; // Stores the errno of the command after execution
+    // and parameters are stored in subsequent indeces.
+    char ** cmd; // Null terminated array.
+    pid_t pid; // Process ID of the command.
+    int exit_status; // Stores the errno of the command after execution.
+    // Stores the size of the Null terminated array, 
+    // not include the NULL.
+    unsigned int size; 
     
+    /* Utility functions */
     
-    // Utility functions for use with execute. Note, this will
+    // Functions that execute built in commands. Note, this will
     // grow as we add built-in commands.
     int exit_command();
     int test_command();
     int system_call();
-
 
 public:
 
@@ -56,19 +61,33 @@ public:
     // Destructor
     virtual ~Command();
 
-    // Overridden functions. Derived classes do
-    // not have to implement these.
+    // Overridden functions.
+    
+    /* For use in a command tree */
+    
+    // Returns NULL. 
     virtual Base * get_left();
     virtual Base * get_right();
+    
+    // Does nothing.
     virtual void set_left(Base * left);
     virtual void set_right(Base * right);
-    virtual void print();
+    
+    // Always returns true. Commands are leafs in a command tree.
     virtual bool isLeaf();
+    
+    /* Accessor functions */
+    
+    // Prints the command and parameters.
+    virtual void print();
+    
+    // Returns a string of the command and parameters.
     virtual std::string to_string();
+    
+    // Returns a vector with the command and parameters.
     virtual std::vector<std::string> to_vector();
 
-    // Overrides Base execute function. Derived classes need
-    // to implement this.
+    // Overrides Base execute function.
     virtual int execute();
 };
 
