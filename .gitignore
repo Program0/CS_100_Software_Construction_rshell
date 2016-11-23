@@ -40,3 +40,4 @@ Thumbs.db
 # IDE generated files #
 .pro
 nbproject
+bin/
