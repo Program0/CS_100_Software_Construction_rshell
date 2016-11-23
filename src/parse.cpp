@@ -80,6 +80,7 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 		}
 		free(strCopy);
 		vOut.push_back(v); //store the command vector
+		firstCmdFlag = true;
 		}
         }
     }
