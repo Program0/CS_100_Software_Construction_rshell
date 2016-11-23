@@ -10,9 +10,8 @@ Command::Command(std::vector<std::string> input) {
     // We only process if the input is valid
     if (input.empty()) {
         throw std::invalid_argument("Invalid argument. Empty vector parameter.");
-    } else if (input.at(0) == "[" && input.at(input.size() - 1) != "]") {
-        throw std::invalid_argument("Invalid argument. No closing ].");
-    } else {
+    }     
+    else {
         // We prepare an array of cstrings to pass to execvp
         // Plus an extra for the null terminated string
         cmd = new char* [input.size() + 1];
