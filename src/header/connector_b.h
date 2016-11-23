@@ -12,6 +12,7 @@
 #define CONNECTOR_B_H
 
 // System Libraries
+#include <iostream> // For printing to command line
 #include <cstddef> // For NULL
 
 // User Libraries
@@ -25,20 +26,47 @@ protected:
 
 public:
 
+    // Default constructor
+    Connector_B() : leftChild(NULL), rightChild(NULL){};
     // Main contructor
     Connector_B(Base *left, Base *right);
     
     // Destructor
     virtual ~Connector_B();
-        
-    // Accesor functions
-    Base * get_left();
-    Base * get_right();
+          
+    // Overridden functions. Child classes do 
+    // not need to implement these.
     
-    void print();
+    /* Accesor functions */
+    virtual Base * get_left();
+    virtual Base * get_right();
+    virtual bool isLeaf();
+    
+    /* Mutator functions */
+    
+    // Sets the left child
+    virtual void set_left(Base * left);    
+    // Sets the right child
+    virtual void set_right(Base * right);
 
-    // Executes the commands stored in the left and right child
-    int execute() = 0;
+
+    // Derived classes need to implement these functions.   
+    
+    /* Accesor functions */
+    
+    // Prints its contents
+    virtual void print() = 0;
+    
+    // Returns its contents as a string
+    virtual std::string to_string() = 0;
+    
+    // Returns its contents as a vector
+    virtual std::vector<std::string> to_vector() = 0;
+
+    /* Mutator functions */
+    // Executes the commands stored in the left and right.
+    virtual int execute() = 0;
+    
 };
 
 #endif // CONNECTOR_B_H
