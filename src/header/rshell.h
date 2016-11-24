@@ -8,10 +8,23 @@
 #ifndef RSHELL_H
 #define	RSHELL_H
 
+// System Libraries
+#include <unistd.h>
+
+// User Libraries
 #include "tree.h"
 #include "parse.h"
 
-class RShell{    
+class RShell{
+private:
+    /* Member variables */
+    char * userName; // Name of the logged in user
+    char * hostName; // Name of the host where the use is logged in.
+
+    /* Utility functions */
+    char *getUser();
+    char *getHost();
+
 public:
     // Main constructor
     RShell() {};
