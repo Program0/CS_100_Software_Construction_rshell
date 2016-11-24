@@ -25,7 +25,7 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 	//check for leading/trailing connector syntax errors
 	if (input.at(0) == '&' || input.at(0) == '|' || input.at(0) == ';' ||
 		input.at(j) == '&' || input.at(j) == '|' || input.at(j) == ';') {
-		std::cout << "Error: Invalid input" << std::endl;
+		std::cout << "Error: Invalid command logic." << std::endl;
 		return -1;
 	}
 	//syntax tests passed.
@@ -40,8 +40,11 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 		if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';' || input.at(i) == '(' || input.at(i) == ')') {
 			firstCmdEnd = i;
 			if (input.at(i) == '&' || input.at(i) == '|' || input.at(i) == ';') {
-				bool bad = badInput(input, i, input.at(i));
-				if (bad) return -1;   //checks for bad connector syntax
+				bool bad = badInput(input, i, input.at(i)); //pass in the string, index, and char symbol
+				if (bad) {
+					std::cout << "Error: Invalid Connector." << std::endl;
+					return -1;   //checks for bad connector syntax
+				}
 			}
 			if (!firstCmdFlag && i > 0) {     //if first connector, must make initial left-most command leaf
 				std::vector<std::string> u;
@@ -80,6 +83,7 @@ int Parse::parse(std::vector< std::vector<std::string> > &vOut) {
 		}
 		free(strCopy);
 		vOut.push_back(v); //store the command vector
+		firstCmdFlag = true;
 		}
         }
     }

@@ -22,6 +22,15 @@ public:
     // Destructor
     virtual ~Semicolon_Connector();
     
+    // Prints the contents to the command line.
+    void print();
+    
+   // Returns its contents as a string
+    std::string to_string();
+    
+    // Returns its contents as a vector
+    std::vector<std::string> to_vector();
+    
     /* 
     *  Overrides Base execute. Returns a value > 0 if the right 
     *  child command successfuly executed, returns -1 if an exit 
@@ -34,4 +43,3 @@ public:
 };
 
 #endif
-

@@ -1,5 +1,5 @@
-//Marlo Zeroth mzero001@ucr.edu 861309346
-////Emmilio Segovia esego001@ucr.edu 861305177
+// Marlo Zeroth mzero001@ucr.edu 861309346
+// Emmilio Segovia esego001@ucr.edu 861305177
 
 /*
 *  For future implementation of unary connectors
@@ -7,13 +7,8 @@
 
 #include "connector_u.h"
 
-Connector_U::Connector_U(Base *childCommand): child(childCommand)
-{
-
-}
-
 Connector_U::~Connector_U(){
-    if(child!=NULL){
+    if(child){
         delete child;
         child = NULL;
     }
@@ -30,18 +25,18 @@ Base * Connector_U::get_right(){
     return NULL;
 }
 
-// Stub
-void Connector_U::print(){
-
+// Sets the left child
+void Connector_U::set_left(Base* left){
+    child = left;
 }
 
-// Stub
-int Connector_U::execute(){
-    return 0;
+// Sets the right child
+void Connector_U::set_right(Base* right){
+    child = NULL;
 }
 
-bool Connector_U::isLeaf() {
+// Always returns false. This is a connector
+bool Connector_U::isLeaf(){
     return false;
 }
-
 

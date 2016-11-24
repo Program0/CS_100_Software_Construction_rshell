@@ -4,13 +4,30 @@
 #include "and_connector.h"
 
 // Main constructor. Initialize with parent constructor.
-And_Connector::And_Connector(Base* left, Base* right) : Connector_B(left, right) {
+And_Connector::And_Connector(Base* left, Base* right) : Connector_B (left, right) {
 
 }
 
 // Virtual destructor calls the Connector_B class destructor.
 And_Connector::~And_Connector(){
 
+}
+
+// Only print the connector. Let the leaves do their own printing.
+void And_Connector::print(){
+    std::cout << "&&" << std::endl;
+}
+
+std::string And_Connector::to_string(){
+    std::string temp("&&");
+    return temp;
+}
+
+std::vector<std::string> And_Connector::to_vector(){
+    std::string temp("&&");
+    std::vector<std::string> v;
+    v.push_back(temp);
+    return v;
 }
 
 // We assume by default that if a command executes it returns 0 and
