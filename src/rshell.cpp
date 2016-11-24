@@ -31,6 +31,7 @@ RShell::RShell () {
         currentDir = temp.substr (temp.find_last_of("/")+1);
     }
 }
+
 void RShell::execute (int argc, char* argv[]) {
 
     Tree *commandTree = new Tree (); // Holds and executes commands
@@ -57,6 +58,7 @@ void RShell::execute (int argc, char* argv[]) {
         }
     }
 }
+
 void RShell::execute () {
     Tree *commandTree = new Tree (); // Holds and executes commands
     Parse *parser = new Parse (); // Parses user input

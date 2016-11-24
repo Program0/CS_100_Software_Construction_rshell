@@ -117,6 +117,8 @@ int Command::execute() {
         returnValue = exit_command();
     } else if (!std::strcmp(cmd[0], "test") || !std::strcmp(cmd[0], "[")) {
         returnValue = test_command();
+    } else if (!std::strcmp(cmd[0], "cd")) {
+        returnValue = cd_command();
     } else {
         returnValue = system_call();
     }
@@ -273,5 +275,37 @@ int Command::test_command() {
         std::cout << "(False)" << std::endl;
     }
     return status;
+}
+
+int Command::cd_command() {
+    char buffer[MAXPATHLEN];        //buffer for getcwd command
+    const char *curPath = getcwd(buffer, MAXPATHLEN);       //get the current path
+    const char *newPath;            //the new path
+
+    //determine new path
+    if (size == 1) {
+        newPath = getenv("HOME");       //get the home path
+    }
+    else if (!std::strcmp(cmd[1], "-")) {
+        newPath = getenv("OLDPWD");
+    }
+    else {
+        newPath = cmd[1];
+    }
+
+    //perform data movement with error checking
+    if (setenv("OLDPWD", curPath, 1) == -1) {   //set OLDPWD to current path
+        perror("Could not update OLDPWD variable.");
+        return 1;
+    }
+    if (setenv("PWD", newPath, 1) == -1) {  //set PWD to HOME path
+        perror("Could not update PWD variable.");
+        return 1;
+    }
+    if (chdir(newPath) == -1) {     //update current directory
+        perror("Could not change directory.");
+        return 1;
+    }
+        return 0;
 }
 

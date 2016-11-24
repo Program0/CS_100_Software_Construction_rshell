@@ -20,6 +20,7 @@
 #include <fcntl.h> // For testing a pipe between child and parent process
 #include <sysexits.h> // For testing exit status of process
 #include <sys/stat.h> // For the stat function used in test commands
+#include <sys/param.h>//for accessing environment variables
 #include <time.h>
 #include <limits.h> // For the realpath() function and PATHMAX macro
 #include <dirent.h> // For getting a directory stream
@@ -52,6 +53,7 @@ private:
     int exit_command();
     int test_command();
     int system_call();
+    int cd_command();
 
 public:
 
