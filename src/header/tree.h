@@ -24,17 +24,6 @@ private:
 
     // Stores the 
     std::vector<std::vector<std::string> > commands;
-    
-    // Utility functions
-    
-    /*
-    *  Helper function for the execute() function.
-    *  Recursively traverses the tree in post-order
-    *  and returns the status of the node->execute()
-    *  function. If at any time a value of -1 is
-    *  returned we exit the recursion and return -1.    
-    */ 
-    int executeCommand(Base * node, int status);
 
 public:
     /* Constructors and Destructor */
@@ -49,9 +38,9 @@ public:
     ~Tree();
 
     // Assignment operator
-    Tree& operator= (const Tree& tree);
+    Tree& operator=(const Tree& tree);
 
-	// Builds the tree by calling the recursive build function
+    // Builds the tree by calling the recursive build function
     void build(std::vector<std::vector<std::string> > vIn);
 
     // Recursively builds the tree based on the Parsed commands vector vIn
