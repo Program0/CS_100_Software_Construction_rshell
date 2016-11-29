@@ -291,6 +291,12 @@ int Command::cd_command() {
     }
     else {
         newPath = cmd[1];
+	if (cmd[1][0] == '~') {
+		char *aNewPath = getenv("HOME");
+		std::string afterTilde(cmd[1] + 1, strlen(cmd[1]) - 1);
+		std::strcat(aNewPath, afterTilde.c_str());
+		newPath = aNewPath;
+	}
     }
 
     //perform data movement with error checking
