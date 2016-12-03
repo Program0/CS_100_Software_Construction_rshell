@@ -28,7 +28,7 @@ RShell::RShell () {
     // Set the current directory
     if (dir) {
         std::string temp (dir);
-        currentDir = temp.substr (temp.find_last_of("/")+1);
+        currentDir = temp;
     }
 }
 
@@ -126,6 +126,6 @@ void RShell::updateDisplay () {
     // Set the current directory
     if (dir) {
         std::string temp (dir);
-        currentDir = temp.substr (temp.find_last_of("/")+1);
+        currentDir = temp;
     }
 }
