@@ -1,24 +1,22 @@
 #!/bin/sh
-#must be moved into rshell folder that was cloned!!!!!!!!!!!!
-make clean; make
 
 #Should echo hello world
-./bin/rshell "echo hello world "
+bin/rshell "echo hello world "
 
 #should run ls -l
-./bin/rshell "ls -l"
+bin/rshell "ls -l"
 
 #Should output main.cpp
-./bin/rshell "cat src/main.cpp"
+bin/rshell "cat src/main.cpp"
 
 #Should fail
-./bin/rshell "cd rshell/src/"
+bin/rshell "cd rshell/src/"
 
 #Should exit
-./bin/rshell "exit"
+bin/rshell "exit"
 
 #Should create a file named test.txt
-./bin/rshell "touch test.txt "
+bin/rshell "touch test.txt "
 
 #Should clear screen
-./bin/rshell "clear"
+bin/rshell "clear"
